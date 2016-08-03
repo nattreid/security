@@ -28,7 +28,7 @@ class AuthorizatorFactory {
     private $orm;
 
     public function __construct(\Nette\Caching\IStorage $cacheStorage, Model $orm, AppManager $app = NULL) {
-        $this->cache = new Cache($cacheStorage, 'nattreid-acl');
+        $this->cache = new Cache($cacheStorage, 'nattreid-security-acl');
         $this->orm = $orm;
         if ($app !== NULL) {
             $app->onInvalidateCache[] = [$this, 'cleanCache'];
