@@ -23,7 +23,8 @@
         "nattreid/orm": "~1.0"
     },
     "require-dev": {
-        "nette/tester": "~1.7"
+        "nette/tester": "~1.7",
+        "nattreid/appmanager": "~1.0"
     },
     "autoload": {
         "classmap": ["src/"]
