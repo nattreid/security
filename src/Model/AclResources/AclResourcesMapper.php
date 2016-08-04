@@ -32,7 +32,7 @@ class AclResourcesMapper extends Mapper {
             /* @var $rule Acl */
             $resources[] = $rule->resource->id;
         }
-        $this->connection->query('DELETE FROM %table WHERE [id] NOT IN (%i[])', $this->getTableName(), $resources);
+        $this->connection->query('DELETE FROM %table WHERE [id] NOT IN %i[]', $this->getTableName(), $resources);
     }
 
 }
