@@ -9,9 +9,6 @@ namespace NAttreid\Security\Model;
  */
 class AclResourcesRepository extends \NAttreid\Orm\Repository {
 
-    /** @var AclResourcesMapper */
-    protected $mapper;
-
     public static function getEntityClassNames() {
         return [AclResource::class];
     }
@@ -20,7 +17,13 @@ class AclResourcesRepository extends \NAttreid\Orm\Repository {
      * Smazani nepouzitych zdroju (pro prehlednost)
      */
     public function deleteUnused() {
-        $this->mapper->deleteUnused();
+        /* @var $orm \NAttreid\Security\Model\Orm */
+        $orm = $this->getModel();
+        $resources = $orm->acl->findAll();
+        foreach ($resources as $resource) {
+            $orm->remove($resource);
+        }
+        $orm->flush();
     }
 
 }
