@@ -7,8 +7,7 @@ use NAttreid\Security\Authenticator,
     Nette\DI\Statement,
     NAttreid\Security\Control\ITryUserFactory,
     NAttreid\Security\Control\TryUser,
-    NAttreid\Security\User,
-    NAttreid\Security\Authenticator\MainAuthenticator;
+    NAttreid\Security\User;
 
 /**
  * Rozsireni prihlasovaci logiky
@@ -18,7 +17,6 @@ use NAttreid\Security\Authenticator,
 class SecurityExtension extends \Nette\DI\CompilerExtension {
 
     private $defaults = [
-        'defaultNamespace' => NULL,
         'authenticator' => []
     ];
 
@@ -26,14 +24,9 @@ class SecurityExtension extends \Nette\DI\CompilerExtension {
         $builder = $this->getContainerBuilder();
         $config = $this->validateConfig($this->defaults, $this->getConfig());
 
-        if (!isset($config['defaultNamespace'])) {
-            throw new \Nette\InvalidArgumentException("Missing value 'namespace' for security");
-        }
-
         $authenticator = $builder->addDefinition($this->prefix('authenticator'))
                 ->setClass(Authenticator::class);
 
-        $config['authenticator'][$config['defaultNamespace']] = MainAuthenticator::class;
         foreach ($config['authenticator'] as $name => $class) {
             $auth = $builder->addDefinition($this->prefix('authenticators.' . $name))
                     ->setClass($this->getClass($class))

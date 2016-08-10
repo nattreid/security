@@ -11,9 +11,8 @@ extensions:
 dostupné nastavení
 ```neon
 securityExt:
-    defaultNamespace: crm
     authenticator:
-        - App\FrontAuthenticator
+        front: App\FrontAuthenticator
 ```
 
 A přidat do orm model trackingu. V příkladu je extension orm pod nazvem **orm**
