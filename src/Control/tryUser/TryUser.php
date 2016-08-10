@@ -125,7 +125,7 @@ class TryUser extends \Nette\Application\UI\Control {
 
     public function render($args = NULL) {
         $template = $this->template;
-        $template->setFile(__DIR__ . '/tryUser.latte');
+        $template->setFile(__DIR__ . '/default.latte');
 
         $template->view = $this->view;
         $template->args = $args;
