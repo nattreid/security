@@ -8,7 +8,8 @@ use Nextras\Orm\Relationships\ManyHasMany,
     Nextras\Dbal\UniqueConstraintViolationException,
     Nette\Utils\Strings,
     Nette\Utils\Validators,
-    Nette\InvalidArgumentException;
+    Nette\InvalidArgumentException,
+    Nette\Security\AuthenticationException;
 
 /**
  * User
@@ -70,7 +71,7 @@ class User extends \Nextras\Orm\Entity\Entity {
      */
     public function setEmail($email) {
         if (!Validators::isEmail($email)) {
-            throw new \Nette\InvalidArgumentException('Value is not valid email');
+            throw new InvalidArgumentException('Value is not valid email');
         }
 
         /* @var $repository UsersRepository */
