@@ -111,7 +111,7 @@ class AuthorizatorFactory {
             if ($rule->allowed) {
                 $permission->allow($rule->role->name, $rule->resource->name, $rule->privilege);
             } else {
-                $permission->denny($rule->role->name, $rule->resource->name, $rule->privilege);
+                $permission->deny($rule->role->name, $rule->resource->name, $rule->privilege);
             }
         }
     }
