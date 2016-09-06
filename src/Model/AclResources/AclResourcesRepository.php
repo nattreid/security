@@ -7,20 +7,23 @@ namespace NAttreid\Security\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class AclResourcesRepository extends \NAttreid\Orm\Repository {
+class AclResourcesRepository extends \NAttreid\Orm\Repository
+{
 
-    /** @var AclResourcesMapper */
-    protected $mapper;
+	/** @var AclResourcesMapper */
+	protected $mapper;
 
-    public static function getEntityClassNames() {
-        return [AclResource::class];
-    }
+	public static function getEntityClassNames()
+	{
+		return [AclResource::class];
+	}
 
-    /**
-     * Smazani nepouzitych zdroju (pro prehlednost)
-     */
-    public function deleteUnused() {
-        $this->mapper->deleteUnused();
-    }
+	/**
+	 * Smazani nepouzitych zdroju (pro prehlednost)
+	 */
+	public function deleteUnused()
+	{
+		$this->mapper->deleteUnused();
+	}
 
 }

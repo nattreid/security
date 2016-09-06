@@ -1,34 +1,38 @@
 {
-    "name": "nattreid/security",
-    "description": "Security extension for Nette Framework",
-    "type": "library",
-    "license": ["Unlicense"],
-    "authors": [
-        {
-            "name": "Attreid",
-            "email": "attreid@gmail.com"
-        }
-    ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.newtravel.cz"
-        }
-    ],
-    "require": {
-        "php": ">= 5.6",
-        "nette/di": "~2.4",
-        "nette/application": "~2.4",
-        "nette/security": "~2.4",
-        "nattreid/orm": "~1.0",
-        "jaybizzle/crawler-detect": "~1.2",
-        "mobiledetect/mobiledetectlib": "~2.8"
-    },
-    "require-dev": {
-        "nette/tester": "~1.7",
-        "nattreid/appmanager": "~1.0"
-    },
-    "autoload": {
-        "classmap": ["src/"]
+  "name": "nattreid/security",
+  "description": "Security extension for Nette Framework",
+  "type": "library",
+  "license": [
+    "Unlicense"
+  ],
+  "authors": [
+    {
+      "name": "Attreid",
+      "email": "attreid@gmail.com"
     }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.newtravel.cz"
+    }
+  ],
+  "require": {
+    "php": ">= 5.6",
+    "nette/di": "~2.4",
+    "nette/application": "~2.4",
+    "nette/security": "~2.4",
+    "nattreid/orm": "~1.0",
+    "jaybizzle/crawler-detect": "~1.2",
+    "mobiledetect/mobiledetectlib": "~2.8"
+  },
+  "require-dev": {
+    "nette/tester": "~1.7",
+    "nattreid/appmanager": "~1.0"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  }
 }

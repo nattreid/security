@@ -2,58 +2,65 @@
 
 namespace NAttreid\Security;
 
-use Nette\Security\IUserStorage,
-    Nette\Security\IAuthenticator;
+use Nette\Security\IAuthenticator;
+use Nette\Security\IUserStorage;
 
 /**
  * Prihlaseni
  *
  * @author Attreid <attreid@gmail.com>
  */
-class Authenticator implements IAuthenticator {
+class Authenticator implements IAuthenticator
+{
 
-    use \Nette\SmartObject;
+	use \Nette\SmartObject;
 
-    private $authenticators = [];
-    private $userStorage;
+	private $authenticators = [];
 
-    public function __construct(IUserStorage $userStorage) {
-        $this->userStorage = $userStorage;
-    }
+	/** @var IUserStorage */
+	private $userStorage;
 
-    /**
-     * Vrati overovac
-     * @return IAuthenticator
-     * @throws \UnexpectedValueException
-     */
-    private function getAuthenticator() {
-        $ns = $this->userStorage->getNamespace();
-        if (empty($ns)) {
-            throw new \UnexpectedValueException('Namespace is not set');
-        }
-        if (!isset($this->authenticators[$ns])) {
-            throw new \UnexpectedValueException('Namespace is not registered');
-        }
-        return $this->authenticators[$ns];
-    }
+	public function __construct(IUserStorage $userStorage)
+	{
+		$this->userStorage = $userStorage;
+	}
 
-    /**
-     * Prida overovac
-     * @param type $namespace
-     * @param IAuthenticator $authenticator
-     */
-    public function add($namespace, IAuthenticator $authenticator) {
-        $this->authenticators[$namespace] = $authenticator;
-    }
+	/**
+	 * Vrati overovac
+	 * @return IAuthenticator
+	 * @throws \UnexpectedValueException
+	 */
+	private function getAuthenticator()
+	{
+		$ns = $this->userStorage->getNamespace();
+		if (empty($ns)) {
+			throw new \UnexpectedValueException('Namespace is not set');
+		}
+		if (!isset($this->authenticators[$ns])) {
+			throw new \UnexpectedValueException('Namespace is not registered');
+		}
+		return $this->authenticators[$ns];
+	}
 
-    /**
-     * Overeni
-     * @param array $credentials
-     * @return \Nette\Security\IIdentity
-     * @throws \Exception
-     */
-    public function authenticate(array $credentials) {
-        return $this->getAuthenticator()->authenticate($credentials);
-    }
+	/**
+	 * Prida overovac
+	 * @param string $namespace
+	 * @param IAuthenticator $authenticator
+	 */
+	public function add($namespace, IAuthenticator $authenticator)
+	{
+		$this->authenticators[$namespace] = $authenticator;
+	}
+
+	/**
+	 * Overeni
+	 * @param array $credentials
+	 * @return \Nette\Security\IIdentity
+	 * @throws \Exception
+	 */
+	public function authenticate(array $credentials)
+	{
+		return $this->getAuthenticator()->authenticate($credentials);
+	}
 
 }

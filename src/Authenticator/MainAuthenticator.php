@@ -2,56 +2,59 @@
 
 namespace NAttreid\Security\Authenticator;
 
-use Nextras\Orm\Model\Model,
-    NAttreid\Security\Model\Orm,
-    Nette\Security\AuthenticationException,
-    Nette\Security\Passwords,
-    Nette\Security\Identity,
-    NAttreid\Security\Model\User;
+use NAttreid\Security\Model\Orm;
+use NAttreid\Security\Model\User;
+use Nette\Security\AuthenticationException;
+use Nette\Security\Identity;
+use Nette\Security\Passwords;
+use Nextras\Orm\Model\Model;
 
 /**
  * Hlavni autentizace
  *
  * @author Attreid <attreid@gmail.com>
  */
-class MainAuthenticator implements \Nette\Security\IAuthenticator {
+class MainAuthenticator implements \Nette\Security\IAuthenticator
+{
 
-    use \Nette\SmartObject;
+	use \Nette\SmartObject;
 
-    /** @var Orm */
-    private $orm;
+	/** @var Orm */
+	private $orm;
 
-    public function __construct(Model $orm) {
-        $this->orm = $orm;
-    }
+	public function __construct(Model $orm)
+	{
+		$this->orm = $orm;
+	}
 
-    /**
-     * Performs an authentication.
-     * @return Identity
-     * @throws AuthenticationException
-     */
-    public function authenticate(array $credentials) {
-        list($username, $password) = $credentials;
+	/**
+	 * Performs an authentication.
+	 * @return Identity
+	 * @throws AuthenticationException
+	 */
+	public function authenticate(array $credentials)
+	{
+		list($username, $password) = $credentials;
 
-        $user = $this->orm->users->getByUsername($username);
+		$user = $this->orm->users->getByUsername($username);
 
-        if (!$user) {
-            throw new AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
-        } elseif (!Passwords::verify($password, $user->password)) {
-            throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
-        } elseif (!$user->active) {
-            throw new AuthenticationException('Account is deactivated.', self::NOT_APPROVED);
-        } elseif (Passwords::needsRehash($user->password)) {
-            $user->setPassword($password);
-            $this->orm->persistAndFlush($user);
-        }
-        $this->orm->users->setValid($user->id);
+		if (!$user) {
+			throw new AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
+		} elseif (!Passwords::verify($password, $user->password)) {
+			throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
+		} elseif (!$user->active) {
+			throw new AuthenticationException('Account is deactivated.', self::NOT_APPROVED);
+		} elseif (Passwords::needsRehash($user->password)) {
+			$user->setPassword($password);
+			$this->orm->persistAndFlush($user);
+		}
+		$this->orm->users->setValid($user->id);
 
-        $arr = $user->toArray(User::TO_ARRAY_RELATIONSHIP_AS_ID);
-        unset($arr['password']);
+		$arr = $user->toArray(User::TO_ARRAY_RELATIONSHIP_AS_ID);
+		unset($arr['password']);
 
-        $roles = $user->getRoles();
-        return new Identity($user->id, $roles, $arr);
-    }
+		$roles = $user->getRoles();
+		return new Identity($user->id, $roles, $arr);
+	}
 
 }

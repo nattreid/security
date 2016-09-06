@@ -7,10 +7,12 @@ namespace NAttreid\Security\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class AclRepository extends \NAttreid\Orm\Repository {
+class AclRepository extends \NAttreid\Orm\Repository
+{
 
-    public static function getEntityClassNames() {
-        return [Acl::class];
-    }
+	public static function getEntityClassNames()
+	{
+		return [Acl::class];
+	}
 
 }
