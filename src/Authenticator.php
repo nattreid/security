@@ -4,6 +4,7 @@ namespace NAttreid\Security;
 
 use Nette\Http\UserStorage;
 use Nette\Security\IAuthenticator;
+use Nette\Security\IUserStorage;
 use Nette\SmartObject;
 use UnexpectedValueException;
 
@@ -22,7 +23,7 @@ class Authenticator implements IAuthenticator
 	/** @var UserStorage */
 	private $userStorage;
 
-	public function __construct(UserStorage $userStorage)
+	public function __construct(IUserStorage $userStorage)
 	{
 		$this->userStorage = $userStorage;
 	}
