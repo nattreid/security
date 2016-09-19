@@ -2,6 +2,7 @@
 
 namespace NAttreid\Security\Model;
 
+use NAttreid\Orm\Structure\Table;
 use Nette\Caching\Cache;
 use Nette\Security\AuthenticationException;
 
@@ -16,7 +17,7 @@ class UsersMapper extends Mapper
 	private $tag = 'user';
 	private $key = 'user_identity';
 
-	protected function createTable(\NAttreid\Orm\Structure\Table $table)
+	protected function createTable(Table $table)
 	{
 		$table->addPrimaryKey('id')
 			->int()
@@ -63,7 +64,7 @@ class UsersMapper extends Mapper
 				]);
 				return $user;
 			} else {
-				throw new \Nette\Security\AuthenticationException('User is inactive');
+				throw new AuthenticationException('User is inactive');
 			}
 		}
 		return NULL;

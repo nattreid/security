@@ -5,8 +5,10 @@ namespace NAttreid\Security\Control;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\User;
 use NAttreid\Utils\Hasher;
+use Nette\Application\UI\Control;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
+use Nette\Security\Identity;
 use Nextras\Orm\Model\Model;
 
 /**
@@ -14,7 +16,7 @@ use Nextras\Orm\Model\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class TryUser extends \Nette\Application\UI\Control
+class TryUser extends Control
 {
 
 	/** @var int @persistent */
@@ -23,7 +25,7 @@ class TryUser extends \Nette\Application\UI\Control
 	/** @var boolean */
 	private $view = TRUE;
 
-	/** @var \Nette\Security\Identity */
+	/** @var Identity */
 	private $originalIdentity;
 
 	/** @var Orm */
@@ -109,6 +111,7 @@ class TryUser extends \Nette\Application\UI\Control
 		$session->$uniqid = $hash;
 		$this->id = $uniqid;
 		$this->presenter->redirect($this->redirect);
+		return TRUE;
 	}
 
 	/**
@@ -149,6 +152,9 @@ class TryUser extends \Nette\Application\UI\Control
 interface ITryUserFactory
 {
 
-	/** @return TryUser */
+	/**
+	 * @param $redirect
+	 * @return TryUser
+	 */
 	public function create($redirect);
 }

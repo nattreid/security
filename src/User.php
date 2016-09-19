@@ -5,20 +5,22 @@ namespace NAttreid\Security;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use NAttreid\Security\Model\AclResource;
 use NAttreid\Security\Model\Orm;
-use NAttreid\Security\Model\User as EUser;
+use NAttreid\Security\Model\User as UserEntity;
 use Nette\Http\Request;
 use Nette\Http\Response;
 use Nette\Http\Session;
+use Nette\InvalidArgumentException;
+use Nette\InvalidStateException;
+use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthorizator;
 use Nette\Security\Identity;
 use Nette\Security\IUserStorage;
+use Nette\Security\User as NUser;
 use Nette\Utils\Random;
 use Nextras\Orm\Model\Model;
+use Tracy\Debugger;
 
-/**
- * {@inheritdoc }
- */
-class User extends \Nette\Security\User
+class User extends NUser
 {
 
 	const
@@ -55,7 +57,7 @@ class User extends \Nette\Security\User
 
 		// session
 		$section = $this->session->getSection('user');
-		$debug = !\Tracy\Debugger::$productionMode;
+		$debug = !Debugger::$productionMode;
 		// antiBot
 		if (!isset($section->isBot) || $debug) {
 			$CrawlerDetect = new CrawlerDetect;
@@ -70,11 +72,11 @@ class User extends \Nette\Security\User
 
 		$this->orm->users->onFlush[] = function ($persisted, $removed) {
 			foreach ($persisted as $user) {
-				/* @var $user EUser */
+				/* @var $user UserEntity */
 				$this->orm->users->invalidateIdentity($user->id);
 			}
 			foreach ($removed as $user) {
-				/* @var $user EUser */
+				/* @var $user UserEntity */
 				$this->orm->users->invalidateIdentity($user->id);
 			}
 		};
@@ -90,7 +92,7 @@ class User extends \Nette\Security\User
 				if ($user) {
 					$this->setIdentity($user);
 				}
-			} catch (\Nette\Security\AuthenticationException $ex) {
+			} catch (AuthenticationException $ex) {
 				$this->logout();
 			}
 		}
@@ -98,21 +100,21 @@ class User extends \Nette\Security\User
 
 	/**
 	 * Nastavei identitu
-	 * @param EUser|Identity $user
+	 * @param UserEntity|Identity $user
 	 */
 	public function setIdentity($user)
 	{
-		if ($user instanceof EUser) {
+		if ($user instanceof UserEntity) {
 			$roles = $user->getRoles();
 
-			$arr = $user->toArray(EUser::TO_ARRAY_RELATIONSHIP_AS_ID);
+			$arr = $user->toArray(UserEntity::TO_ARRAY_RELATIONSHIP_AS_ID);
 			unset($arr['password']);
 
 			$identity = new Identity($user->id, $roles, $arr);
 		} elseif ($user instanceof Identity) {
 			$identity = $user;
 		} else {
-			throw new \Nette\InvalidArgumentException;
+			throw new InvalidArgumentException;
 		}
 		$this->getStorage()->setIdentity($identity);
 	}
@@ -135,14 +137,11 @@ class User extends \Nette\Security\User
 		$this->orm->users->invalidateIdentity($this->getId());
 	}
 
-	/**
-	 * {@inheritdoc }
-	 */
 	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL)
 	{
 		try {
 			return parent::isAllowed($resource, $privilege);
-		} catch (\Nette\InvalidStateException $ex) {
+		} catch (InvalidStateException $ex) {
 			$aclResource = new AclResource;
 			$aclResource->name = $resource;
 

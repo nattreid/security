@@ -9,6 +9,8 @@ use NAttreid\Security\Model\AclRole;
 use NAttreid\Security\Model\AclRolesMapper;
 use NAttreid\Security\Model\Orm;
 use Nette\Caching\Cache;
+use Nette\Caching\IStorage;
+use Nette\Security\IAuthorizator;
 use Nette\Security\Permission;
 use Nextras\Orm\Model\Model;
 
@@ -28,7 +30,7 @@ class AuthorizatorFactory
 	/** @var Orm */
 	private $orm;
 
-	public function __construct(\Nette\Caching\IStorage $cacheStorage, Model $orm, AppManager $app = NULL)
+	public function __construct(IStorage $cacheStorage, Model $orm, AppManager $app = NULL)
 	{
 		$this->cache = new Cache($cacheStorage, 'nattreid-security-acl');
 		$this->orm = $orm;
@@ -54,7 +56,7 @@ class AuthorizatorFactory
 
 	/**
 	 * Vytvoreni pravidel
-	 * @return \Nette\Security\IAuthorizator
+	 * @return IAuthorizator
 	 */
 	public function create()
 	{

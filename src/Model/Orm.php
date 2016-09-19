@@ -1,6 +1,7 @@
 <?php
 
 namespace NAttreid\Security\Model;
+use Nextras\Orm\Model\Model;
 
 /**
  * @property-read AclRepository $acl
@@ -10,7 +11,7 @@ namespace NAttreid\Security\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class Orm extends \Nextras\Orm\Model\Model
+class Orm extends Model
 {
 
 }

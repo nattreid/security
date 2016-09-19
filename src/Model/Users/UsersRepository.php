@@ -1,6 +1,7 @@
 <?php
 
 namespace NAttreid\Security\Model;
+use NAttreid\Orm\Repository;
 
 /**
  * Users Repository
@@ -9,10 +10,10 @@ namespace NAttreid\Security\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class UsersRepository extends \NAttreid\Orm\Repository
+class UsersRepository extends Repository
 {
 
-	/** @var \NAttreid\Security\Model\UsersMapper */
+	/** @var UsersMapper */
 	protected $mapper;
 
 	public static function getEntityClassNames()
@@ -36,7 +37,7 @@ class UsersRepository extends \NAttreid\Orm\Repository
 	 */
 	public function getByUsername($username)
 	{
-		return $this->findby(['username' => $username])->fetch();
+		return $this->findBy(['username' => $username])->fetch();
 	}
 
 	/**
@@ -56,7 +57,7 @@ class UsersRepository extends \NAttreid\Orm\Repository
 	 */
 	public function getByEmail($email)
 	{
-		return $this->findby(['email' => $email])->fetch();
+		return $this->findBy(['email' => $email])->fetch();
 	}
 
 	/**

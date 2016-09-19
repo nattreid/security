@@ -1,6 +1,7 @@
 <?php
 
 namespace NAttreid\Security\Model;
+use NAttreid\Orm\Structure\Table;
 
 /**
  * Acl Roles Mapper
@@ -17,7 +18,7 @@ class AclRolesMapper extends Mapper
 		ADMIN = 'admin',
 		SUPERADMIN = 'superadmin';
 
-	protected function createTable(\NAttreid\Orm\Structure\Table $table)
+	protected function createTable(Table $table)
 	{
 		$table->addPrimaryKey('id')
 			->int()

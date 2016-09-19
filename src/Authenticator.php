@@ -2,8 +2,10 @@
 
 namespace NAttreid\Security;
 
+use Nette\Http\UserStorage;
 use Nette\Security\IAuthenticator;
-use Nette\Security\IUserStorage;
+use Nette\SmartObject;
+use UnexpectedValueException;
 
 /**
  * Prihlaseni
@@ -13,14 +15,14 @@ use Nette\Security\IUserStorage;
 class Authenticator implements IAuthenticator
 {
 
-	use \Nette\SmartObject;
+	use SmartObject;
 
 	private $authenticators = [];
 
-	/** @var IUserStorage */
+	/** @var UserStorage */
 	private $userStorage;
 
-	public function __construct(IUserStorage $userStorage)
+	public function __construct(UserStorage $userStorage)
 	{
 		$this->userStorage = $userStorage;
 	}
@@ -28,16 +30,16 @@ class Authenticator implements IAuthenticator
 	/**
 	 * Vrati overovac
 	 * @return IAuthenticator
-	 * @throws \UnexpectedValueException
+	 * @throws UnexpectedValueException
 	 */
 	private function getAuthenticator()
 	{
 		$ns = $this->userStorage->getNamespace();
 		if (empty($ns)) {
-			throw new \UnexpectedValueException('Namespace is not set');
+			throw new UnexpectedValueException('Namespace is not set');
 		}
 		if (!isset($this->authenticators[$ns])) {
-			throw new \UnexpectedValueException('Namespace is not registered');
+			throw new UnexpectedValueException('Namespace is not registered');
 		}
 		return $this->authenticators[$ns];
 	}

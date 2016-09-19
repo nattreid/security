@@ -2,6 +2,8 @@
 
 namespace NAttreid\Security\Model;
 
+use NAttreid\Orm\Structure\Table;
+
 /**
  * Acl Resources Mapper
  *
@@ -10,7 +12,7 @@ namespace NAttreid\Security\Model;
 class AclResourcesMapper extends Mapper
 {
 
-	protected function createTable(\NAttreid\Orm\Structure\Table $table)
+	protected function createTable(Table $table)
 	{
 		$table->addPrimaryKey('id')
 			->int()

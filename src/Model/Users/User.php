@@ -8,6 +8,7 @@ use Nette\Security\Passwords;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 use Nextras\Dbal\UniqueConstraintViolationException;
+use Nextras\Orm\Entity\Entity;
 use Nextras\Orm\Relationships\ManyHasMany;
 
 /**
@@ -25,7 +26,7 @@ use Nextras\Orm\Relationships\ManyHasMany;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class User extends \Nextras\Orm\Entity\Entity
+class User extends Entity
 {
 
 	/**

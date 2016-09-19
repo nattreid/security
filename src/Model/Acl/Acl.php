@@ -2,6 +2,8 @@
 
 namespace NAttreid\Security\Model;
 
+use Nextras\Orm\Entity\Entity;
+
 /**
  * Acl
  *
@@ -13,7 +15,7 @@ namespace NAttreid\Security\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class Acl extends \Nextras\Orm\Entity\Entity
+class Acl extends Entity
 {
 
 	const

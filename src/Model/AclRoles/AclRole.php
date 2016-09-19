@@ -5,6 +5,7 @@ namespace NAttreid\Security\Model;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Strings;
 use Nextras\Dbal\UniqueConstraintViolationException;
+use Nextras\Orm\Entity\Entity;
 use Nextras\Orm\Relationships\ManyHasMany;
 use Nextras\Orm\Relationships\OneHasMany;
 
@@ -21,7 +22,7 @@ use Nextras\Orm\Relationships\OneHasMany;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class AclRole extends \Nextras\Orm\Entity\Entity
+class AclRole extends Entity
 {
 
 	protected function onBeforePersist()

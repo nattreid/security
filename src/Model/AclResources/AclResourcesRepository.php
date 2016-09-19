@@ -2,12 +2,14 @@
 
 namespace NAttreid\Security\Model;
 
+use NAttreid\Orm\Repository;
+
 /**
  * Acl Resources Repository
  *
  * @author Attreid <attreid@gmail.com>
  */
-class AclResourcesRepository extends \NAttreid\Orm\Repository
+class AclResourcesRepository extends Repository
 {
 
 	/** @var AclResourcesMapper */

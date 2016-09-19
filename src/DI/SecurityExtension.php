@@ -7,6 +7,7 @@ use NAttreid\Security\AuthorizatorFactory;
 use NAttreid\Security\Control\ITryUserFactory;
 use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\User;
+use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
 
 /**
@@ -14,7 +15,7 @@ use Nette\DI\Statement;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class SecurityExtension extends \Nette\DI\CompilerExtension
+class SecurityExtension extends CompilerExtension
 {
 
 	private $defaults = [
