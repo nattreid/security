@@ -9,7 +9,7 @@ use Nextras\Orm\Entity\IEntity;
 /**
  * Acl Roles Repository
  *
- * @method AclRole|IEntity getById($primaryValue)
+ * @method AclRole getById($primaryValue)
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -27,11 +27,11 @@ class AclRolesRepository extends Repository
 	/**
 	 * Vrati roli podle jmena
 	 * @param string $name
-	 * @return AclRole|IEntity
+	 * @return AclRole
 	 */
 	public function getByName($name)
 	{
-		return $this->findBy(['name' => $name])->fetch();
+		return $this->getBy(['name' => $name]);
 	}
 
 	/**

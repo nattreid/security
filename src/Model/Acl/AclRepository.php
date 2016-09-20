@@ -8,7 +8,7 @@ use Nextras\Orm\Entity\IEntity;
 /**
  * Acl Repository
  *
- * @method Acl|IEntity getById($primaryValue)
+ * @method Acl getById($primaryValue)
  *
  * @author Attreid <attreid@gmail.com>
  */

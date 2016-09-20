@@ -9,7 +9,7 @@ use Nextras\Orm\Entity\IEntity;
  * Users Repository
  *
  * @method User getRefreshUser($userId) Vrati data pokud je treba ja aktualizovat
- * @method User|IEntity getById($primaryValue)
+ * @method User getById($primaryValue)
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -36,11 +36,11 @@ class UsersRepository extends Repository
 	/**
 	 * Vrati uzivatele podle jmena
 	 * @param string $username
-	 * @return User|IEntity
+	 * @return User
 	 */
 	public function getByUsername($username)
 	{
-		return $this->findBy(['username' => $username])->fetch();
+		return $this->getBy(['username' => $username]);
 	}
 
 	/**
