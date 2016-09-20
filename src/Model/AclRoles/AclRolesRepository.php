@@ -4,9 +4,12 @@ namespace NAttreid\Security\Model;
 
 use NAttreid\Orm\Repository;
 use Nextras\Orm\Collection\ICollection;
+use Nextras\Orm\Entity\IEntity;
 
 /**
  * Acl Roles Repository
+ *
+ * @method AclRole|IEntity getById($primaryValue)
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -24,7 +27,7 @@ class AclRolesRepository extends Repository
 	/**
 	 * Vrati roli podle jmena
 	 * @param string $name
-	 * @return AclRole
+	 * @return AclRole|IEntity
 	 */
 	public function getByName($name)
 	{

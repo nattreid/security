@@ -1,12 +1,15 @@
 <?php
 
 namespace NAttreid\Security\Model;
+
 use NAttreid\Orm\Repository;
+use Nextras\Orm\Entity\IEntity;
 
 /**
  * Users Repository
  *
  * @method User getRefreshUser($userId) Vrati data pokud je treba ja aktualizovat
+ * @method User|IEntity getById($primaryValue)
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -33,7 +36,7 @@ class UsersRepository extends Repository
 	/**
 	 * Vrati uzivatele podle jmena
 	 * @param string $username
-	 * @return User
+	 * @return User|IEntity
 	 */
 	public function getByUsername($username)
 	{
@@ -53,7 +56,7 @@ class UsersRepository extends Repository
 	/**
 	 * Vrati uzivatele podle emailu
 	 * @param string $email
-	 * @return User
+	 * @return User|IEntity
 	 */
 	public function getByEmail($email)
 	{

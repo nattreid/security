@@ -3,9 +3,12 @@
 namespace NAttreid\Security\Model;
 
 use NAttreid\Orm\Repository;
+use Nextras\Orm\Entity\IEntity;
 
 /**
  * Acl Repository
+ *
+ * @method Acl|IEntity getById($primaryValue)
  *
  * @author Attreid <attreid@gmail.com>
  */
