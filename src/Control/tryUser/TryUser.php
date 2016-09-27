@@ -97,7 +97,7 @@ class TryUser extends Control
 	/**
 	 * Nastavi testovaci ucet a presmeruje
 	 * @param int $id
-	 * @return boolean pokud uzivatel name prava k teto metode, vrati false
+	 * @return boolean pokud uzivatel nema prava k teto metode, vrati false
 	 */
 	public function set($id)
 	{
