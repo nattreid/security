@@ -23,7 +23,7 @@ class TryUser extends Control
 	public $id;
 
 	/** @var boolean */
-	private $view = TRUE;
+	private $enable = FALSE;
 
 	/** @var Identity */
 	private $originalIdentity;
@@ -50,7 +50,6 @@ class TryUser extends Control
 		$this->hasher = $hasher;
 		$this->user = $user;
 		$this->session = $session;
-		$this->setView(FALSE);
 		$this->redirect = $redirect;
 	}
 
@@ -59,6 +58,14 @@ class TryUser extends Control
 		if (!empty($this->originalIdentity)) {
 			$this->user->setIdentity($this->originalIdentity);
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isEnable()
+	{
+		return $this->enable;
 	}
 
 	/**
@@ -80,18 +87,9 @@ class TryUser extends Control
 			if ($user) {
 				$this->originalIdentity = clone $this->user->getIdentity();
 				$this->user->setIdentity($user);
-				$this->setView();
+				$this->enable = TRUE;
 			}
 		}
-	}
-
-	/**
-	 * Nastavi zobrazeni
-	 * @param boolean $view
-	 */
-	public function setView($view = TRUE)
-	{
-		$this->view = $view;
 	}
 
 	/**
@@ -136,15 +134,14 @@ class TryUser extends Control
 		$this->presenter->redirect('this');
 	}
 
-	public function render($args = NULL)
+	public function render()
 	{
 		$template = $this->template;
 		$template->setFile(__DIR__ . '/default.latte');
 
-		$template->view = $this->view;
-		$template->args = $args;
-
-		$template->render();
+		if ($this->enable) {
+			$template->render();
+		}
 	}
 
 }
