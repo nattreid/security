@@ -140,11 +140,11 @@ class User extends NUser
 	/**
 	 * @param string $resource
 	 * @param string $privilege
-	 * @param string $name
 	 * @param string $parent
+	 * @param string $name
 	 * @return bool
 	 */
-	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, $name = null, $parent = null)
+	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, $parent = null, $name = null)
 	{
 		try {
 			return parent::isAllowed($resource, $privilege);
