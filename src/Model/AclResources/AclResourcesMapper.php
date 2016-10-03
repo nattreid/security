@@ -17,9 +17,12 @@ class AclResourcesMapper extends Mapper
 		$table->addPrimaryKey('id')
 			->int()
 			->setAutoIncrement();
-		$table->addColumn('name')
+		$table->addColumn('resource')
 			->varChar(150)
 			->setUnique();
+		$table->addForeignKey('parentId', $table);
+		$table->addColumn('name')
+			->varChar(150);
 	}
 
 	/**

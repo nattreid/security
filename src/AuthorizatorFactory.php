@@ -105,7 +105,7 @@ class AuthorizatorFactory
 	{
 		/* @var $resource AclResource */
 		foreach ($this->orm->aclResources->findAll() as $resource) {
-			$permission->addResource($resource->name);
+			$permission->addResource($resource->resource);
 		}
 	}
 
@@ -118,9 +118,9 @@ class AuthorizatorFactory
 		/* @var $rule Acl */
 		foreach ($this->orm->acl->findAll() as $rule) {
 			if ($rule->allowed) {
-				$permission->allow($rule->role->name, $rule->resource->name, $rule->privilege);
+				$permission->allow($rule->role->name, $rule->resource->resource, $rule->privilege);
 			} else {
-				$permission->deny($rule->role->name, $rule->resource->name, $rule->privilege);
+				$permission->deny($rule->role->name, $rule->resource->resource, $rule->privilege);
 			}
 		}
 	}

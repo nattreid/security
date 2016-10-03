@@ -137,13 +137,20 @@ class User extends NUser
 		$this->orm->users->invalidateIdentity($this->getId());
 	}
 
-	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL)
+	/**
+	 * @param string $resource
+	 * @param string $privilege
+	 * @param string $name
+	 * @param string $parent
+	 * @return bool
+	 */
+	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, $name = null, $parent = null)
 	{
 		try {
 			return parent::isAllowed($resource, $privilege);
 		} catch (InvalidStateException $ex) {
 			$aclResource = new AclResource;
-			$aclResource->name = $resource;
+			$aclResource->resource = $resource;
 
 			$this->orm->persistAndFlush($aclResource);
 			$this->refreshPermissions();
