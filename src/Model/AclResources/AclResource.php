@@ -10,13 +10,16 @@ use Nextras\Orm\Relationships\OneHasMany;
  *
  * @property int $id {primary}
  * @property string $resource
- * @property AclResource $parent {m:1 Resource::$children}
- * @property OneHasMany|AclResource[] $children {1:m Resource::$$parent}
- * @property string $name
+ * @property AclResource|null $parent {m:1 AclResource::$children}
+ * @property OneHasMany|AclResource[] $children {1:m AclResource::$parent}
+ * @property string|null $name
  *
  * @author Attreid <attreid@gmail.com>
  */
 class AclResource extends Entity
 {
-
+	public function getterName()
+	{
+		return $this->name = empty($this->name) ? $this->resource : $this->name;
+	}
 }

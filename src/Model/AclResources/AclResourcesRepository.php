@@ -3,7 +3,6 @@
 namespace NAttreid\Security\Model;
 
 use NAttreid\Orm\Repository;
-use Nextras\Orm\Entity\IEntity;
 
 /**
  * Acl Resources Repository
@@ -31,4 +30,12 @@ class AclResourcesRepository extends Repository
 		$this->mapper->deleteUnused();
 	}
 
+	/**
+	 * @param $resource
+	 * @return AclResource
+	 */
+	public function getByResource($resource)
+	{
+		return $this->getBy(['resource' => $resource]);
+	}
 }

@@ -149,8 +149,16 @@ class User extends NUser
 		try {
 			return parent::isAllowed($resource, $privilege);
 		} catch (InvalidStateException $ex) {
+			if ($parent !== NULL) {
+				$parent = $this->orm->aclResources->getByResource($parent);
+				if (!$parent) {
+					throw new InvalidArgumentException('Parent not exists');
+				}
+			}
 			$aclResource = new AclResource;
 			$aclResource->resource = $resource;
+			$aclResource->name = $name;
+			$aclResource->parent = $parent;
 
 			$this->orm->persistAndFlush($aclResource);
 			$this->refreshPermissions();
