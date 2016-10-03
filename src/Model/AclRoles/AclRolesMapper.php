@@ -26,18 +26,18 @@ class AclRolesMapper extends Mapper
 		$table->addColumn('name')
 			->varChar(50)
 			->setUnique();
-		$table->addForeignKey('parentId', $table, NULL)
-			->setDefault(NULL);
+		$table->addForeignKey('parentId', $table, null)
+			->setDefault(null);
 		$table->addColumn('position')
 			->int()
-			->setDefault(NULL)
+			->setDefault(null)
 			->setKey();
 	}
 
 	protected function loadDefaultData()
 	{
 		$this->insert([
-			'parentId' => NULL,
+			'parentId' => null,
 			'name' => self::GUEST,
 			'position' => 1
 		]);
@@ -57,7 +57,7 @@ class AclRolesMapper extends Mapper
 			'position' => 5
 		]);
 		$this->insert([
-			'parentId' => NULL,
+			'parentId' => null,
 			'name' => self::SUPERADMIN,
 			'position' => 2
 		]);

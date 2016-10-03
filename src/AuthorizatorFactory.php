@@ -30,11 +30,11 @@ class AuthorizatorFactory
 	/** @var Orm */
 	private $orm;
 
-	public function __construct(IStorage $cacheStorage, Model $orm, AppManager $app = NULL)
+	public function __construct(IStorage $cacheStorage, Model $orm, AppManager $app = null)
 	{
 		$this->cache = new Cache($cacheStorage, 'nattreid-security-acl');
 		$this->orm = $orm;
-		if ($app !== NULL) {
+		if ($app !== null) {
 			$app->onInvalidateCache[] = [$this, 'cleanCache'];
 		}
 		$this->orm->aclResources->onFlush[] = $this->orm->acl->onFlush[] = $this->orm->aclRoles->onFlush[] = function ($persisted, $removed) {
@@ -62,7 +62,7 @@ class AuthorizatorFactory
 	{
 		$key = 'AuthorizatorCache';
 		$result = $this->cache->load($key);
-		if ($result === NULL) {
+		if ($result === null) {
 			$result = $this->cache->save($key, function () {
 				$permission = new Permission;
 

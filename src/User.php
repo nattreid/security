@@ -45,7 +45,7 @@ class User extends NUser
 	/** @var AuthorizatorFactory */
 	private $authorizatorFactory;
 
-	public function __construct(IUserStorage $storage, Model $orm, Session $session, Request $request, Response $response, AuthorizatorFactory $authorizatorFactory, Authenticator $authenticator = NULL, IAuthorizator $authorizator = NULL)
+	public function __construct(IUserStorage $storage, Model $orm, Session $session, Request $request, Response $response, AuthorizatorFactory $authorizatorFactory, Authenticator $authenticator = null, IAuthorizator $authorizator = null)
 	{
 		parent::__construct($storage, $authenticator, $authorizator);
 		$this->authenticator = $authenticator;
@@ -174,7 +174,7 @@ class User extends NUser
 	 * @param boolean $tablet patri do skupiny i tablety
 	 * @return boolean
 	 */
-	public function isMobile($tablet = TRUE)
+	public function isMobile($tablet = true)
 	{
 		$session = $this->session->getSection('user');
 

@@ -23,7 +23,7 @@ class TryUser extends Control
 	public $id;
 
 	/** @var boolean */
-	private $enable = FALSE;
+	private $enable = false;
 
 	/** @var Identity */
 	private $originalIdentity;
@@ -87,7 +87,7 @@ class TryUser extends Control
 			if ($user) {
 				$this->originalIdentity = clone $this->user->getIdentity();
 				$this->user->setIdentity($user);
-				$this->enable = TRUE;
+				$this->enable = true;
 			}
 		}
 	}
@@ -100,7 +100,7 @@ class TryUser extends Control
 	public function set($id)
 	{
 		if (!$this->isAllowed()) {
-			return FALSE;
+			return false;
 		}
 		$hash = $this->hasher->hash($id);
 		$uniqid = uniqid();
@@ -109,7 +109,7 @@ class TryUser extends Control
 		$session->$uniqid = $hash;
 		$this->id = $uniqid;
 		$this->presenter->redirect($this->redirect);
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -129,7 +129,7 @@ class TryUser extends Control
 		$session = $this->getSession();
 		if (!empty($this->id)) {
 			unset($session[$this->id]);
-			$this->id = NULL;
+			$this->id = null;
 		}
 		$this->presenter->redirect('this');
 	}

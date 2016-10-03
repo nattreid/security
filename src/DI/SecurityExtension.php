@@ -33,7 +33,7 @@ class SecurityExtension extends CompilerExtension
 		foreach ($config['authenticator'] as $name => $class) {
 			$auth = $builder->addDefinition($this->prefix('authenticators.' . $name))
 				->setClass($this->getClass($class))
-				->setAutowired(FALSE);
+				->setAutowired(false);
 
 			$authenticator->addSetup('add', [$name, $auth]);
 		}

@@ -11,7 +11,7 @@ use Nextras\Orm\Entity\Entity;
  * @property AclRole $role {m:1 AclRole, oneSided=true}
  * @property AclResource $resource {m:1 AclResource, oneSided=true}
  * @property string $privilege {enum self::PRIVILEGE_*}
- * @property boolean $allowed {default TRUE}
+ * @property boolean $allowed {default true}
  *
  * @author Attreid <attreid@gmail.com>
  */

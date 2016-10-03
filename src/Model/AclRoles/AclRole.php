@@ -14,7 +14,7 @@ use Nextras\Orm\Relationships\OneHasMany;
  *
  * @property int $id {primary}
  * @property string $name
- * @property AclRole|NULL $parent {m:1 AclRole::$children}
+ * @property AclRole|null $parent {m:1 AclRole::$children}
  * @property OneHasMany|AclRole[] $children {1:m AclRole::$parent, orderBy=position}
  * @property int $position {default 0}
  * @property string $title {virtual}
@@ -50,7 +50,7 @@ class AclRole extends Entity
 		/* @var $repository AclRolesRepository */
 		$repository = $this->getRepository();
 		$role = $repository->getByName($name);
-		if ($role !== NULL && $role !== $this) {
+		if ($role !== null && $role !== $this) {
 			throw new UniqueConstraintViolationException("Role '$name' exists");
 		}
 		$this->name = $name;

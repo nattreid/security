@@ -15,7 +15,7 @@ use Nextras\Orm\Relationships\ManyHasMany;
  * User
  *
  * @property int $id {primary}
- * @property boolean $active {default TRUE}
+ * @property boolean $active {default true}
  * @property string $username
  * @property string $firstName
  * @property string $surname
@@ -35,9 +35,9 @@ class User extends Entity
 	 * @param string $oldPassword
 	 * @throws AuthenticationException
 	 */
-	public function setPassword($newPassword, $oldPassword = NULL)
+	public function setPassword($newPassword, $oldPassword = null)
 	{
-		if ($oldPassword != NULL) {
+		if ($oldPassword != null) {
 			if (!Passwords::verify($oldPassword, $this->password)) {
 				throw new AuthenticationException('The password is incorrect.');
 			}
@@ -60,7 +60,7 @@ class User extends Entity
 		/* @var $repository UsersRepository */
 		$repository = $this->getRepository();
 		$user = $repository->getByUsername($username);
-		if ($user !== NULL && $user !== $this) {
+		if ($user !== null && $user !== $this) {
 			throw new UniqueConstraintViolationException("Username '$username' exists");
 		}
 		$this->username = $username;
@@ -81,7 +81,7 @@ class User extends Entity
 		/* @var $repository UsersRepository */
 		$repository = $this->getRepository();
 		$user = $repository->getByEmail($email);
-		if ($user !== NULL && $user !== $this) {
+		if ($user !== null && $user !== $this) {
 			throw new UniqueConstraintViolationException("Email '$email' exists");
 		}
 		$this->email = $email;
