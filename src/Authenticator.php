@@ -15,9 +15,9 @@ use UnexpectedValueException;
  */
 class Authenticator implements IAuthenticator
 {
-
 	use SmartObject;
 
+	/** @var IAuthenticator[] */
 	private $authenticators = [];
 
 	/** @var UserStorage */

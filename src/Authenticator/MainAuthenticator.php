@@ -18,7 +18,6 @@ use Nextras\Orm\Model\Model;
  */
 class MainAuthenticator implements IAuthenticator
 {
-
 	use SmartObject;
 
 	/** @var Orm */

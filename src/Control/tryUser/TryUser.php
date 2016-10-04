@@ -37,7 +37,7 @@ class TryUser extends Control
 	/** @var User */
 	private $user;
 
-	/** @var Session */
+	/** @var SessionSection */
 	private $session;
 
 	/** @var string */
@@ -49,7 +49,7 @@ class TryUser extends Control
 		$this->orm = $orm;
 		$this->hasher = $hasher;
 		$this->user = $user;
-		$this->session = $session;
+		$this->session = $session->getSection('security/tryingUserParams');
 		$this->redirect = $redirect;
 	}
 
@@ -68,21 +68,11 @@ class TryUser extends Control
 		return $this->enable;
 	}
 
-	/**
-	 * Vrati Session
-	 * @return SessionSection
-	 */
-	private function getSession()
-	{
-		return $this->session->getSection('security/tryingUserParams');
-	}
-
 	public function init()
 	{
 		if (!empty($this->id) && $this->isAllowed()) {
-			$session = $this->getSession();
-			$session->setExpiration('20 minutes');
-			$hash = $session[$this->id];
+			$this->session->setExpiration('20 minutes');
+			$hash = $this->session[$this->id];
 			$user = $this->orm->users->getByHashId($hash);
 			if ($user) {
 				$this->originalIdentity = clone $this->user->getIdentity();
@@ -104,9 +94,8 @@ class TryUser extends Control
 		}
 		$hash = $this->hasher->hash($id);
 		$uniqid = uniqid();
-		$session = $this->getSession();
-		$session->setExpiration('5 minutes');
-		$session->$uniqid = $hash;
+		$this->session->setExpiration('5 minutes');
+		$this->session->$uniqid = $hash;
 		$this->id = $uniqid;
 		$this->presenter->redirect($this->redirect);
 		return true;
@@ -126,9 +115,8 @@ class TryUser extends Control
 	 */
 	public function handleLogoutTryRole()
 	{
-		$session = $this->getSession();
 		if (!empty($this->id)) {
-			unset($session[$this->id]);
+			unset($this->session[$this->id]);
 			$this->id = null;
 		}
 		$this->presenter->redirect('this');
