@@ -18,7 +18,7 @@ use Nextras\Orm\Relationships\OneHasMany;
  */
 class AclResource extends Entity
 {
-	public function getterName()
+	protected function getterName()
 	{
 		return $this->name = empty($this->name) ? $this->resource : $this->name;
 	}

@@ -91,7 +91,7 @@ class User extends Entity
 	 * Vrati cele jmeno
 	 * @return string
 	 */
-	public function getterFullName()
+	protected function getterFullName()
 	{
 		return $this->firstName . ' ' . $this->surname;
 	}

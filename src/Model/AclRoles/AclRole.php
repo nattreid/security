@@ -60,7 +60,7 @@ class AclRole extends Entity
 	 * Vrati nazev role
 	 * @return string
 	 */
-	public function getterTitle()
+	protected function getterTitle()
 	{
 		return $this->name;
 	}
