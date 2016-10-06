@@ -149,7 +149,7 @@ class User extends NUser
 		try {
 			return parent::isAllowed($resource, $privilege);
 		} catch (InvalidStateException $ex) {
-			if ($parent !== NULL) {
+			if ($parent !== null) {
 				$parent = $this->orm->aclResources->getByResource($parent);
 				if (!$parent) {
 					throw new InvalidArgumentException('Parent not exists');
