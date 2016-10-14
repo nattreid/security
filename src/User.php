@@ -107,7 +107,7 @@ class User extends NUser
 		if ($user instanceof UserEntity) {
 			$roles = $user->getRoles();
 
-			$arr = $user->toArray(UserEntity::TO_ARRAY_RELATIONSHIP_AS_ID);
+			$arr = $user->toArray($user::TO_ARRAY_RELATIONSHIP_AS_ID);
 			unset($arr['password']);
 
 			$identity = new Identity($user->id, $roles, $arr);
