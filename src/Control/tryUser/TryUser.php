@@ -14,6 +14,8 @@ use Nextras\Orm\Model\Model;
 /**
  * Prihlaseni za jineho uzivatele
  *
+ * @property-write string $permission
+ *
  * @author Attreid <attreid@gmail.com>
  */
 class TryUser extends Control
@@ -43,6 +45,9 @@ class TryUser extends Control
 	/** @var string */
 	private $redirect;
 
+	/** @var string */
+	private $permission = 'security.tryUser';
+
 	public function __construct($redirect, Model $orm, Hasher $hasher, User $user, Session $session)
 	{
 		parent::__construct();
@@ -58,6 +63,11 @@ class TryUser extends Control
 		if (!empty($this->originalIdentity)) {
 			$this->user->setIdentity($this->originalIdentity);
 		}
+	}
+
+	protected function setPermission($value)
+	{
+		$this->permission = $value;
 	}
 
 	/**
@@ -107,7 +117,7 @@ class TryUser extends Control
 	 */
 	public function isAllowed()
 	{
-		return $this->user->isAllowed('security.tryUser', 'view');
+		return $this->user->isAllowed($this->permission, 'view');
 	}
 
 	/**
@@ -131,12 +141,10 @@ class TryUser extends Control
 			$template->render();
 		}
 	}
-
 }
 
 interface ITryUserFactory
 {
-
 	/**
 	 * @param $redirect
 	 * @return TryUser
