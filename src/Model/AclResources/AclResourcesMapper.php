@@ -3,6 +3,8 @@
 namespace NAttreid\Security\Model;
 
 use NAttreid\Orm\Structure\Table;
+use Nette\Caching\Cache;
+use Tracy\Debugger;
 
 /**
  * Acl Resources Mapper
@@ -11,6 +13,7 @@ use NAttreid\Orm\Structure\Table;
  */
 class AclResourcesMapper extends Mapper
 {
+	private $tag = 'netta/pages';
 
 	protected function createTable(Table $table)
 	{
@@ -20,10 +23,18 @@ class AclResourcesMapper extends Mapper
 		$table->addColumn('resource')
 			->varChar(150)
 			->setUnique();
-		$table->addForeignKey('parentId', $table)
-			->setDefault(null);
 		$table->addColumn('name')
 			->varChar(150);
+	}
+
+	/**
+	 * Smaze cache
+	 */
+	public function cleanCache()
+	{
+		$this->cache->clean([
+			Cache::TAGS => [$this->tag]
+		]);
 	}
 
 	/**
@@ -31,7 +42,7 @@ class AclResourcesMapper extends Mapper
 	 */
 	public function deleteUnused()
 	{
-		/* @var $orm \NAttreid\Security\Model\Orm */
+		/* @var $orm Orm */
 		$orm = $this->getRepository()->getModel();
 		$resources = [];
 		$rules = $orm->acl->findAll();
@@ -46,4 +57,57 @@ class AclResourcesMapper extends Mapper
 		}
 	}
 
+	/**
+	 * @param $role
+	 * @return ResourceItem[]
+	 */
+	public function getResources($role)
+	{
+//		$key = 'resourceList-' . $role;
+//		$rows = $this->cache->load($key);
+//		if ($rows === null) {
+//			$rows = $this->cache->save($key, function () use ($role) {
+		$result = [];
+		$resources = $this->getRepository()->findAll()->orderBy('name');
+		foreach ($resources as $resource) {
+			/* @var $resource AclResource */
+			$list = explode('.', $resource->resource);
+			end($list);
+			$last = key($list);
+			/* @var $current ResourceItem */
+			$current = null;
+
+			foreach ($list as $key => $row) {
+				if ($current === null) {
+					if (isset($result[$row])) {
+						$current = $result[$row];
+					} else {
+						if ($key === $last) {
+							$item = new ResourceItem($resource, $role);
+						} else {
+							$item = new ResourceItem($row, $role);
+						}
+						$current = $result[$row] = $item;
+					}
+				} else {
+					if (isset($current->items[$row])) {
+						$current = $current->items[$row];
+					} else {
+						if ($key === $last) {
+							$item = new ResourceItem($resource, $role, $current);
+						} else {
+							$item = new ResourceItem($row, $role, $current);
+						}
+						$current = $current->addItem($row, $item);
+					}
+				}
+			}
+		}
+		return $result;
+//			}, [
+//				Cache::TAGS => [$this->tag]
+//			]);
+//		}
+//		return $rows;
+	}
 }

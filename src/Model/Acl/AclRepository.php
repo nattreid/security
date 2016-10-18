@@ -3,7 +3,6 @@
 namespace NAttreid\Security\Model;
 
 use NAttreid\Orm\Repository;
-use Nextras\Orm\Entity\IEntity;
 
 /**
  * Acl Repository
@@ -20,4 +19,18 @@ class AclRepository extends Repository
 		return [Acl::class];
 	}
 
+	/**
+	 * @param $resource
+	 * @param $role
+	 * @param string $privilege
+	 * @return Acl|null
+	 */
+	public function getPermission($resource, $role, $privilege = Acl::PRIVILEGE_VIEW)
+	{
+		return $this->getBy([
+			'this->resource->resource' => $resource,
+			'this->role->name' => $role,
+			'privilege' => $privilege
+		]);
+	}
 }

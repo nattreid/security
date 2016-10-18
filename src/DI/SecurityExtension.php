@@ -2,13 +2,16 @@
 
 namespace NAttreid\Security\DI;
 
+use NAttreid\AppManager\AppManager;
 use NAttreid\Security\Authenticator;
 use NAttreid\Security\AuthorizatorFactory;
 use NAttreid\Security\Control\ITryUserFactory;
 use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\User;
 use Nette\DI\CompilerExtension;
+use Nette\DI\ServiceCreationException;
 use Nette\DI\Statement;
+use Nextras\Orm\Model\Model;
 
 /**
  * Rozsireni prihlasovaci logiky
@@ -56,6 +59,14 @@ class SecurityExtension extends CompilerExtension
 		$builder->getDefinition('security.user')
 			->setFactory(User::class)
 			->setClass(User::class);
+
+		try {
+			$app = $builder->getByType(AppManager::class);
+			$builder->getDefinition($app)
+				->addSetup(new Statement('$app->onInvalidateCache[] = function() {?->aclResources->cleanCache();}', ['@' . Model::class]));
+		} catch (ServiceCreationException $ex) {
+
+		}
 	}
 
 	/**

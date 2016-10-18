@@ -10,16 +10,32 @@ use Nextras\Orm\Relationships\OneHasMany;
  *
  * @property int $id {primary}
  * @property string $resource
- * @property AclResource|null $parent {m:1 AclResource::$children}
- * @property OneHasMany|AclResource[] $children {1:m AclResource::$parent}
  * @property string|null $name
+ * @property OneHasMany|Acl[] $permissions {1:m Acl::$resource}
  *
  * @author Attreid <attreid@gmail.com>
  */
 class AclResource extends Entity
 {
-	protected function getterName()
+	protected function getterName($value)
 	{
-		return $this->name = empty($this->name) ? $this->resource : $this->name;
+		return empty($value) ? $this->resource : $value;
+	}
+
+	/**
+	 * @param $role
+	 * @param string $privilege
+	 * @return bool
+	 */
+	public function isAllowed($role, $privilege = Acl::PRIVILEGE_VIEW)
+	{
+		/* @var $orm Orm */
+		$orm = $this->getModel();
+		$permission = $orm->acl->getPermission($this->resource, $role, $privilege);
+
+		if ($permission) {
+			return $permission->allowed;
+		}
+		return false;
 	}
 }

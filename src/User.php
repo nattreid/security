@@ -140,25 +140,17 @@ class User extends NUser
 	/**
 	 * @param string $resource
 	 * @param string $privilege
-	 * @param string $parent
 	 * @param string $name
 	 * @return bool
 	 */
-	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, $parent = null, $name = null)
+	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, $name = null)
 	{
 		try {
 			return parent::isAllowed($resource, $privilege);
 		} catch (InvalidStateException $ex) {
-			if ($parent !== null) {
-				$parent = $this->orm->aclResources->getByResource($parent);
-				if (!$parent) {
-					throw new InvalidArgumentException('Parent not exists');
-				}
-			}
 			$aclResource = new AclResource;
 			$aclResource->resource = $resource;
 			$aclResource->name = $name;
-			$aclResource->parent = $parent;
 
 			$this->orm->persistAndFlush($aclResource);
 			$this->refreshPermissions();

@@ -9,7 +9,7 @@ use Nextras\Orm\Entity\Entity;
  *
  * @property int $id {primary}
  * @property AclRole $role {m:1 AclRole, oneSided=true}
- * @property AclResource $resource {m:1 AclResource, oneSided=true}
+ * @property AclResource $resource {m:1 AclResource::$permissions}
  * @property string $privilege {enum self::PRIVILEGE_*}
  * @property boolean $allowed {default true}
  *
@@ -17,9 +17,7 @@ use Nextras\Orm\Entity\Entity;
  */
 class Acl extends Entity
 {
-
 	const
 		PRIVILEGE_VIEW = 'view',
 		PRIVILEGE_EDIT = 'edit';
-
 }
