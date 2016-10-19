@@ -63,51 +63,52 @@ class AclResourcesMapper extends Mapper
 	 */
 	public function getResources($role)
 	{
-//		$key = 'resourceList-' . $role;
-//		$rows = $this->cache->load($key);
-//		if ($rows === null) {
-//			$rows = $this->cache->save($key, function () use ($role) {
-		$result = [];
-		$resources = $this->getRepository()->findAll()->orderBy('name');
-		foreach ($resources as $resource) {
-			/* @var $resource AclResource */
-			$list = explode('.', $resource->resource);
-			end($list);
-			$last = key($list);
-			/* @var $current ResourceItem */
-			$current = null;
+		$key = 'resourceList-' . $role;
+		$rows = $this->cache->load($key);
+		if ($rows === null) {
+			$rows = $this->cache->save($key, function () use ($role) {
+				$result = [];
+				$resources = $this->getRepository()->findAll()->orderBy('resource');
+				foreach ($resources as $resource) {
+					/* @var $resource AclResource */
+					$list = explode('.', $resource->resource);
+					end($list);
+					$last = key($list);
+					/* @var $current ResourceItem */
+					$current = null;
 
-			foreach ($list as $key => $row) {
-				if ($current === null) {
-					if (isset($result[$row])) {
-						$current = $result[$row];
-					} else {
-						if ($key === $last) {
-							$item = new ResourceItem($resource, $role);
+					foreach ($list as $key => $row) {
+						if ($current === null) {
+							if (isset($result[$row])) {
+								$current = $result[$row];
+							} else {
+								if ($key === $last) {
+									$item = new ResourceItem($resource, $role);
+								} else {
+									$item = new ResourceItem($row, $role);
+								}
+								$current = $result[$row] = $item;
+							}
 						} else {
-							$item = new ResourceItem($row, $role);
+							if (isset($current->items[$row])) {
+								$current = $current->items[$row];
+							} else {
+								if ($key === $last) {
+									$item = new ResourceItem($resource, $role, $current);
+								} else {
+									$item = new ResourceItem($row, $role, $current);
+								}
+								$current = $current->addItem($row, $item);
+							}
 						}
-						$current = $result[$row] = $item;
-					}
-				} else {
-					if (isset($current->items[$row])) {
-						$current = $current->items[$row];
-					} else {
-						if ($key === $last) {
-							$item = new ResourceItem($resource, $role, $current);
-						} else {
-							$item = new ResourceItem($row, $role, $current);
-						}
-						$current = $current->addItem($row, $item);
 					}
 				}
-			}
+				Debugger::barDump($result);
+				return $result;
+			}, [
+				Cache::TAGS => [$this->tag]
+			]);
 		}
-		return $result;
-//			}, [
-//				Cache::TAGS => [$this->tag]
-//			]);
-//		}
-//		return $rows;
+		return $rows;
 	}
 }
