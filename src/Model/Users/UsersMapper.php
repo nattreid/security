@@ -57,14 +57,16 @@ class UsersMapper extends Mapper
 		if (!isset($acceptedUsers[$userId])) {
 			/* @var $user User */
 			$user = $this->getRepository()->getById($userId);
-			if ($user->active) {
+			if (!$user) {
+				throw new AuthenticationException('User does not exist');
+			} elseif (!$user->active) {
+				throw new AuthenticationException('User is inactive');
+			} else {
 				$acceptedUsers[$userId] = true;
 				$this->cache->save($this->key, $acceptedUsers, [
 					Cache::TAGS => [$this->tag]
 				]);
 				return $user;
-			} else {
-				throw new AuthenticationException('User is inactive');
 			}
 		}
 		return null;
