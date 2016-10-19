@@ -28,7 +28,8 @@
   },
   "require-dev": {
     "nette/tester": "~1.7",
-    "nattreid/appmanager": "~1.0"
+    "nattreid/appmanager": "~1.0",
+    "kdyby/translation": "dev-master"
   },
   "autoload": {
     "classmap": [

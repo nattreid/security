@@ -2,6 +2,7 @@
 
 namespace NAttreid\Security\Model;
 
+use NAttreid\Security\Translator;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Strings;
 use Nextras\Dbal\UniqueConstraintViolationException;
@@ -24,6 +25,13 @@ use Nextras\Orm\Relationships\OneHasMany;
  */
 class AclRole extends Entity
 {
+	/** @var Translator */
+	private $translator;
+
+	public function injectTranslator(Translator $translator)
+	{
+		$this->translator = $translator;
+	}
 
 	protected function onBeforePersist()
 	{
@@ -62,7 +70,7 @@ class AclRole extends Entity
 	 */
 	protected function getterTitle()
 	{
-		return $this->name;
+		return $this->translator->translate($this->name);
 	}
 
 	/**
@@ -70,8 +78,9 @@ class AclRole extends Entity
 	 * @param string $title
 	 * @return string
 	 */
-	public function setterTitle($title)
+	protected function setterTitle($title)
 	{
+		$this->translator->set($this->name, $title);
 		return $title;
 	}
 

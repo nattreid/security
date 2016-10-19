@@ -7,8 +7,10 @@ use NAttreid\Security\Authenticator;
 use NAttreid\Security\AuthorizatorFactory;
 use NAttreid\Security\Control\ITryUserFactory;
 use NAttreid\Security\Control\TryUser;
+use NAttreid\Security\Translator;
 use NAttreid\Security\User;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Helpers;
 use Nette\DI\ServiceCreationException;
 use Nette\DI\Statement;
 use Nextras\Orm\Model\Model;
@@ -22,13 +24,16 @@ class SecurityExtension extends CompilerExtension
 {
 
 	private $defaults = [
-		'authenticator' => []
+		'authenticator' => [],
+		'langDir' => '%appDir%/lang'
 	];
 
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults, $this->getConfig());
+
+		$config['langDir'] = Helpers::expand($config['langDir'], $builder->parameters);
 
 		$authenticator = $builder->addDefinition($this->prefix('authenticator'))
 			->setClass(Authenticator::class);
@@ -50,6 +55,10 @@ class SecurityExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('tryUser'))
 			->setImplement(ITryUserFactory::class)
 			->setFactory(TryUser::class);
+
+		$builder->addDefinition($this->prefix('translator'))
+			->setClass(Translator::class)
+			->setArguments([$config['langDir']]);
 	}
 
 	public function beforeCompile()
