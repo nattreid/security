@@ -35,11 +35,20 @@ class AuthorizatorFactory
 		$this->cache = new Cache($cacheStorage, 'nattreid-security-acl');
 		$this->orm = $orm;
 		if ($app !== null) {
-			$app->onInvalidateCache[] = [$this, 'cleanCache'];
+			$app->onInvalidateCache[] = function () {
+				$this->cleanCache();
+				$this->orm->aclResources->cleanCache();
+			};
 		}
-		$this->orm->aclResources->onFlush[] = $this->orm->acl->onFlush[] = $this->orm->aclRoles->onFlush[] = function ($persisted, $removed) {
+		$this->orm->acl->onFlush[] = $this->orm->aclRoles->onFlush[] = function ($persisted, $removed) {
 			if (!empty($persisted) || !empty($removed)) {
 				$this->cleanCache();
+			}
+		};
+		$this->orm->aclResources->onFlush[] = function ($persisted, $removed) {
+			if (!empty($persisted) || !empty($removed)) {
+				$this->cleanCache();
+				$this->orm->aclResources->cleanCache();
 			}
 		};
 	}

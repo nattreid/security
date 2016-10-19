@@ -32,6 +32,14 @@ class AclResourcesRepository extends Repository
 	}
 
 	/**
+	 * Smaze cache
+	 */
+	public function cleanCache()
+	{
+		$this->mapper->cleanCache();
+	}
+
+	/**
 	 * @param $resource
 	 * @return AclResource
 	 */

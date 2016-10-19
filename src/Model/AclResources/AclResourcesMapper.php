@@ -103,7 +103,6 @@ class AclResourcesMapper extends Mapper
 						}
 					}
 				}
-				Debugger::barDump($result);
 				return $result;
 			}, [
 				Cache::TAGS => [$this->tag]
