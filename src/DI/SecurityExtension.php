@@ -72,7 +72,7 @@ class SecurityExtension extends CompilerExtension
 		try {
 			$app = $builder->getByType(AppManager::class);
 			$builder->getDefinition($app)
-				->addSetup(new Statement('$app->onInvalidateCache[] = function() {?->aclResources->cleanCache();}', ['@' . Model::class]));
+				->addSetup(new Statement('$service->onInvalidateCache[] = function() {?->aclResources->cleanCache();}', ['@' . Model::class]));
 		} catch (ServiceCreationException $ex) {
 
 		}
