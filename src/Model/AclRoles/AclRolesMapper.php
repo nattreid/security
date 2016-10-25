@@ -1,6 +1,7 @@
 <?php
 
 namespace NAttreid\Security\Model;
+
 use NAttreid\Orm\Structure\Table;
 
 /**
@@ -20,6 +21,8 @@ class AclRolesMapper extends Mapper
 
 	protected function createTable(Table $table)
 	{
+		$table->setDefaultDataFile(__DIR__ . '/roles.sql');
+
 		$table->addPrimaryKey('id')
 			->int()
 			->setAutoIncrement();
@@ -33,34 +36,4 @@ class AclRolesMapper extends Mapper
 			->setDefault(null)
 			->setKey();
 	}
-
-	protected function loadDefaultData()
-	{
-		$this->insert([
-			'parentId' => null,
-			'name' => self::GUEST,
-			'position' => 1
-		]);
-		$this->insert([
-			'parentId' => 1,
-			'name' => self::USER,
-			'position' => 3
-		]);
-		$this->insert([
-			'parentId' => 2,
-			'name' => self::EDITOR,
-			'position' => 4
-		]);
-		$this->insert([
-			'parentId' => 3,
-			'name' => self::ADMIN,
-			'position' => 5
-		]);
-		$this->insert([
-			'parentId' => null,
-			'name' => self::SUPERADMIN,
-			'position' => 2
-		]);
-	}
-
 }
