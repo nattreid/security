@@ -49,8 +49,8 @@ class AclResourcesRepository extends Repository
 	}
 
 	/**
-	 * @param $role
-	 * @param null $parent
+	 * @param string $role
+	 * @param string $parent
 	 * @return ResourceItem[]
 	 */
 	public function getResources($role, $parent = null)
@@ -64,6 +64,27 @@ class AclResourcesRepository extends Repository
 				} else {
 					$result = $result[$name]->items;
 				}
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * @param string $role
+	 * @param string $parent
+	 * @return ResourceItem
+	 */
+	public function getResource($role, $resource)
+	{
+		$result = null;
+		$resources = $this->mapper->getResources($role);
+		$list = explode('.', $resource);
+		foreach ($list as $name) {
+			if (!isset($resources[$name])) {
+				throw new InvalidArgumentException;
+			} else {
+				$result = $resources[$name];
+				$resources = $result->items;
 			}
 		}
 		return $result;
