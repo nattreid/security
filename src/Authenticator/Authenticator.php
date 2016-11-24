@@ -42,14 +42,11 @@ class Authenticator implements IAuthenticator
 	private function getAuthenticator()
 	{
 		$ns = $this->userStorage->getNamespace();
-		if (empty($ns)) {
-			throw new UnexpectedValueException('Namespace is not set');
+		if (isset($this->mapper[$ns])) {
+			$ns = $this->mapper[$ns];
 		}
 		if (!isset($this->authenticators[$ns])) {
 			throw new UnexpectedValueException('Namespace is not registered');
-		}
-		if (isset($this->mapper[$ns])) {
-			$ns = $this->mapper[$ns];
 		}
 		return $this->authenticators[$ns];
 	}
