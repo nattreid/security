@@ -3,13 +3,12 @@
 namespace NAttreid\Security;
 
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use NAttreid\Security\Authenticator\Authenticator;
 use NAttreid\Security\Model\AclResource;
 use NAttreid\Security\Model\Orm;
-use NAttreid\Security\Model\User as UserEntity;
 use Nette\Http\Request;
 use Nette\Http\Response;
 use Nette\Http\Session;
-use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthorizator;
@@ -55,42 +54,36 @@ class User extends NUser
 		$this->response = $response;
 		$this->authorizatorFactory = $authorizatorFactory;
 
-		// session
-		$section = $this->session->getSection('user');
-		$debug = !Debugger::$productionMode;
-		// antiBot
-		if (!isset($section->isBot) || $debug) {
-			$CrawlerDetect = new CrawlerDetect;
-			$section->isBot = $CrawlerDetect->isCrawler();
-		}
-		// mobileDetect
-		if (!isset($section->isMobile) || $debug) {
-			$detect = new \Mobile_Detect();
-			$section->isMobile = $detect->isMobile();
-			$section->isTablet = $detect->isTablet();
-		}
-
-		$this->orm->users->onFlush[] = function ($persisted, $removed) {
-			foreach ($persisted as $user) {
-				/* @var $user UserEntity */
-				$this->orm->users->invalidateIdentity($user->id);
-			}
-			foreach ($removed as $user) {
-				/* @var $user UserEntity */
-				$this->orm->users->invalidateIdentity($user->id);
-			}
-		};
-
-		$this->init();
+		$this->initSession();
+		$this->initIdentity();
 	}
 
-	private function init()
+	private function initSession()
 	{
-		if ($this->isLoggedIn()) {
+		$session = $this->session->getSection('user');
+		$debug = !Debugger::$productionMode;
+
+		// antiBot
+		if (!isset($session->isBot) || $debug) {
+			$CrawlerDetect = new CrawlerDetect;
+			$session->isBot = $CrawlerDetect->isCrawler();
+		}
+
+		// mobileDetect
+		if (!isset($session->isMobile) || $debug) {
+			$detect = new \Mobile_Detect();
+			$session->isMobile = $detect->isMobile();
+			$session->isTablet = $detect->isTablet();
+		}
+	}
+
+	private function initIdentity()
+	{
+		if ($this->isLoggedIn() && $this->authenticator !== null) {
 			try {
-				$user = $this->orm->users->getRefreshUser($this->getId());
-				if ($user) {
-					$this->setIdentity($user);
+				$identity = $this->authenticator->getRefreshIdentity($this->getId());
+				if ($identity) {
+					$this->setIdentity($identity);
 				}
 			} catch (AuthenticationException $ex) {
 				$this->logout();
@@ -100,22 +93,10 @@ class User extends NUser
 
 	/**
 	 * Nastavei identitu
-	 * @param UserEntity|Identity $user
+	 * @param Identity $identity
 	 */
-	public function setIdentity($user)
+	public function setIdentity(Identity $identity)
 	{
-		if ($user instanceof UserEntity) {
-			$roles = $user->getRoles();
-
-			$arr = $user->toArray($user::TO_ARRAY_RELATIONSHIP_AS_ID);
-			unset($arr['password']);
-
-			$identity = new Identity($user->id, $roles, $arr);
-		} elseif ($user instanceof Identity) {
-			$identity = $user;
-		} else {
-			throw new InvalidArgumentException;
-		}
 		$this->getStorage()->setIdentity($identity);
 	}
 
@@ -126,7 +107,7 @@ class User extends NUser
 	public function setNamespace($namespace)
 	{
 		$this->getStorage()->setNamespace($namespace);
-		$this->init();
+		$this->initIdentity();
 	}
 
 	/**

@@ -3,8 +3,8 @@
 namespace NAttreid\Security\Authenticator;
 
 use NAttreid\Security\Model\Orm;
+use NAttreid\Security\Model\User;
 use Nette\Security\AuthenticationException;
-use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
 use Nette\Security\Passwords;
 use Nette\SmartObject;
@@ -15,7 +15,7 @@ use Nextras\Orm\Model\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class MainAuthenticator implements IAuthenticator
+class UserAuthenticator implements IAuthenticator
 {
 	use SmartObject;
 
@@ -25,6 +25,16 @@ class MainAuthenticator implements IAuthenticator
 	public function __construct(Model $orm)
 	{
 		$this->orm = $orm;
+		$this->orm->users->onFlush[] = function ($persisted, $removed) {
+			foreach ($persisted as $user) {
+				/* @var $user User */
+				$this->orm->users->invalidateIdentity($user->id);
+			}
+			foreach ($removed as $user) {
+				/* @var $user User */
+				$this->orm->users->invalidateIdentity($user->id);
+			}
+		};
 	}
 
 	/**
@@ -58,4 +68,23 @@ class MainAuthenticator implements IAuthenticator
 		return new Identity($user->id, $roles, $arr);
 	}
 
+	/**
+	 * Vrati data pokud je treba ja aktualizovat
+	 * @param int $userId
+	 * @return Identity|null
+	 * @throws AuthenticationException
+	 */
+	public function getRefreshIdentity($userId)
+	{
+		$user = $this->orm->users->getRefreshUserData($userId);
+		if ($user) {
+			$roles = $user->getRoles();
+
+			$arr = $user->toArray($user::TO_ARRAY_RELATIONSHIP_AS_ID);
+			unset($arr['password']);
+
+			return new Identity($user->id, $roles, $arr);
+		}
+		return null;
+	}
 }

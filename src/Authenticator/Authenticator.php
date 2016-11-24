@@ -1,9 +1,12 @@
 <?php
 
-namespace NAttreid\Security;
+namespace NAttreid\Security\Authenticator;
 
+use Exception;
 use Nette\Http\UserStorage;
-use Nette\Security\IAuthenticator;
+use Nette\Security\AuthenticationException;
+use Nette\Security\Identity;
+use Nette\Security\IIdentity;
 use Nette\Security\IUserStorage;
 use Nette\SmartObject;
 use UnexpectedValueException;
@@ -46,7 +49,7 @@ class Authenticator implements IAuthenticator
 	}
 
 	/**
-	 * Prida overovac
+	 * Prida authenticator
 	 * @param string $namespace
 	 * @param IAuthenticator $authenticator
 	 */
@@ -58,12 +61,22 @@ class Authenticator implements IAuthenticator
 	/**
 	 * Overeni
 	 * @param array $credentials
-	 * @return \Nette\Security\IIdentity
-	 * @throws \Exception
+	 * @return IIdentity
+	 * @throws Exception
 	 */
 	public function authenticate(array $credentials)
 	{
 		return $this->getAuthenticator()->authenticate($credentials);
 	}
 
+	/**
+	 * Vrati data pokud je treba ja aktualizovat
+	 * @param int $userId
+	 * @return Identity|null
+	 * @throws AuthenticationException
+	 */
+	public function getRefreshIdentity($userId)
+	{
+		$this->getAuthenticator()->getRefreshIdentity($userId);
+	}
 }

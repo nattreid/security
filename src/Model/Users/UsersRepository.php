@@ -8,7 +8,7 @@ use Nextras\Orm\Entity\IEntity;
 /**
  * Users Repository
  *
- * @method User getRefreshUser($userId) Vrati data pokud je treba ja aktualizovat
+ * @method User|null getRefreshUserData($userId) Vrati data pokud je treba ja aktualizovat
  * @method User getById($primaryValue)
  *
  * @author Attreid <attreid@gmail.com>

@@ -47,10 +47,10 @@ class UsersMapper extends Mapper
 	/**
 	 * Vrati data pokud je treba ja aktualizovat
 	 * @param int $userId
-	 * @return User
+	 * @return User|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshUser($userId)
+	public function getRefreshUserData($userId)
 	{
 		$acceptedUsers = $this->cache->load($this->key);
 

@@ -11,11 +11,12 @@ extensions:
 dostupné nastavení
 ```neon
 securityExt:
+    namespace: 'user'
     authenticator:
         front: App\FrontAuthenticator
 ```
 
-A přidat do orm model trackingu. V příkladu je extension orm pod nazvem **orm**
+A přidat do orm model. V příkladu je extension orm pod nazvem **orm**
 ```neon
 orm:
     add:
@@ -24,7 +25,7 @@ orm:
 
 ## Authenticator
 ```php
-class FrontAuthenticator implements \Nette\Security\IAuthenticator {
+class FrontAuthenticator implements \NAttreid\Security\Authenticator\IAuthenticator {
 
     /**
      * Performs an authentication.
@@ -35,5 +36,14 @@ class FrontAuthenticator implements \Nette\Security\IAuthenticator {
         // php code
     }
 
+    /**
+	 * Vrati data pokud je treba ja aktualizovat
+	 * @param int $userId
+	 * @return Identity|null
+	 * @throws AuthenticationException
+	 */
+    public function getRefreshIdentity($userId) {
+        // php code
+    }
 }
 ```

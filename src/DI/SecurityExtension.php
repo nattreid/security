@@ -3,7 +3,8 @@
 namespace NAttreid\Security\DI;
 
 use NAttreid\AppManager\AppManager;
-use NAttreid\Security\Authenticator;
+use NAttreid\Security\Authenticator\Authenticator;
+use NAttreid\Security\Authenticator\UserAuthenticator;
 use NAttreid\Security\AuthorizatorFactory;
 use NAttreid\Security\Control\ITryUserFactory;
 use NAttreid\Security\Control\TryUser;
@@ -24,6 +25,7 @@ class SecurityExtension extends CompilerExtension
 {
 
 	private $defaults = [
+		'namespace' => 'user',
 		'authenticator' => [],
 		'langDir' => '%appDir%/lang'
 	];
@@ -38,8 +40,10 @@ class SecurityExtension extends CompilerExtension
 		$authenticator = $builder->addDefinition($this->prefix('authenticator'))
 			->setClass(Authenticator::class);
 
-		foreach ($config['authenticator'] as $name => $class) {
-			$auth = $builder->addDefinition($this->prefix('authenticators.' . $name))
+		$authenticators = $config['authenticator'];
+		$authenticators[$config['namespace']] = UserAuthenticator::class;
+		foreach ($authenticators as $name => $class) {
+			$auth = $builder->addDefinition($this->prefix('authenticator.' . $name))
 				->setClass($this->getClass($class))
 				->setAutowired(false);
 
