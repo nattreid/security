@@ -25,7 +25,6 @@ class SecurityExtension extends CompilerExtension
 {
 
 	private $defaults = [
-		'namespace' => 'user',
 		'authenticator' => [],
 		'langDir' => '%appDir%/lang'
 	];
@@ -41,7 +40,7 @@ class SecurityExtension extends CompilerExtension
 			->setClass(Authenticator::class);
 
 		$authenticators = $config['authenticator'];
-		$authenticators[$config['namespace']] = UserAuthenticator::class;
+		$authenticators[''] = UserAuthenticator::class;
 		foreach ($authenticators as $name => $class) {
 			$auth = $builder->addDefinition($this->prefix('authenticator.' . $name))
 				->setClass($this->getClass($class))

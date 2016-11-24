@@ -23,6 +23,9 @@ class Authenticator implements IAuthenticator
 	/** @var IAuthenticator[] */
 	private $authenticators = [];
 
+	/** @var string[] */
+	private $mapper = [];
+
 	/** @var UserStorage */
 	private $userStorage;
 
@@ -45,7 +48,20 @@ class Authenticator implements IAuthenticator
 		if (!isset($this->authenticators[$ns])) {
 			throw new UnexpectedValueException('Namespace is not registered');
 		}
+		if (isset($this->mapper[$ns])) {
+			$ns = $this->mapper[$ns];
+		}
 		return $this->authenticators[$ns];
+	}
+
+	/**
+	 * Nastavi mapovani
+	 * @param string $src
+	 * @param string $dest
+	 */
+	public function addMapping($src, $dest)
+	{
+		$this->mapper[$src] = $dest;
 	}
 
 	/**
