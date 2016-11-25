@@ -15,6 +15,19 @@ use Nextras\Orm\Entity\IEntity;
  */
 class UsersRepository extends Repository
 {
+	protected function init()
+	{
+		$this->onFlush[] = function ($persisted, $removed) {
+			foreach ($persisted as $user) {
+				/* @var $user User */
+				$this->invalidateIdentity($user->id);
+			}
+			foreach ($removed as $user) {
+				/* @var $user User */
+				$this->invalidateIdentity($user->id);
+			}
+		};
+	}
 
 	/** @var UsersMapper */
 	protected $mapper;

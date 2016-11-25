@@ -25,16 +25,6 @@ class UserAuthenticator implements IAuthenticator
 	public function __construct(Model $orm)
 	{
 		$this->orm = $orm;
-		$this->orm->users->onFlush[] = function ($persisted, $removed) {
-			foreach ($persisted as $user) {
-				/* @var $user User */
-				$this->orm->users->invalidateIdentity($user->id);
-			}
-			foreach ($removed as $user) {
-				/* @var $user User */
-				$this->orm->users->invalidateIdentity($user->id);
-			}
-		};
 	}
 
 	/**
