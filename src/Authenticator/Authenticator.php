@@ -90,6 +90,6 @@ class Authenticator implements IAuthenticator
 	 */
 	public function getRefreshIdentity($userId)
 	{
-		$this->getAuthenticator()->getRefreshIdentity($userId);
+		return $this->getAuthenticator()->getRefreshIdentity($userId);
 	}
 }
