@@ -29,12 +29,20 @@ class UsersMapper extends Mapper
 			->varChar(50)
 			->setUnique();
 		$table->addColumn('firstName')
-			->varChar();
+			->varChar()
+			->setDefault(null);
 		$table->addColumn('surname')
-			->varChar();
+			->varChar()
+			->setDefault(null);
 		$table->addColumn('email')
 			->varChar(100)
 			->setUnique();
+		$table->addColumn('phone')
+			->varChar(20)
+			->setDefault(null);
+		$table->addColumn('language')
+			->varChar(5)
+			->setDefault(null);
 		$table->addColumn('password')
 			->varChar();
 

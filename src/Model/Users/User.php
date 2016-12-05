@@ -2,6 +2,7 @@
 
 namespace NAttreid\Security\Model;
 
+use NAttreid\Utils\PhoneNumber;
 use Nette\InvalidArgumentException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
@@ -17,9 +18,11 @@ use Nextras\Orm\Relationships\ManyHasMany;
  * @property int $id {primary}
  * @property boolean $active {default true}
  * @property string $username
- * @property string $firstName
- * @property string $surname
+ * @property string|null $firstName
+ * @property string|null $surname
  * @property string $email
+ * @property string|null $phone
+ * @property string|null $language
  * @property string $password
  * @property string $fullName {virtual}
  * @property ManyHasMany|AclRole[] $roles {m:n AclRole::$users, isMain=true}
@@ -85,6 +88,17 @@ class User extends Entity
 			throw new UniqueConstraintViolationException("Email '$email' exists");
 		}
 		$this->email = $email;
+	}
+
+	/**
+	 * @param string $phone
+	 */
+	public function setPhone($phone)
+	{
+		if (!PhoneNumber::validatePhone($phone)) {
+			throw new InvalidArgumentException('Value is not valid phone');
+		}
+		$this->phone = $phone;
 	}
 
 	/**
