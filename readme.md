@@ -47,3 +47,25 @@ class FrontAuthenticator implements \NAttreid\Security\Authenticator\IAuthentica
     }
 }
 ```
+
+## TryUser
+Komponenta pro dočasnou změnu identity uživatele
+
+V BasePresenteru přidejte komponentu
+```php
+    /** @inject */
+    public $tryUserFactory;
+    
+    protected function startup()
+    {
+        parent::startup();
+        $this['tryUser']->init();
+    }
+    
+    protected function createComponentTryUser()
+    {
+        $control = $this->tryUserFactory->create(":Link:Nekam:");
+        $control->permission = 'nazev.prav.pro.komponentu';
+        return $control;
+    }
+```
