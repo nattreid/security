@@ -86,7 +86,7 @@ class TryUser extends Control
 			$user = $this->orm->users->getByHashId($hash);
 			if ($user) {
 				$this->originalIdentity = clone $this->user->getIdentity();
-				$this->user->setIdentity($user);
+				$this->user->setIdentity($user->getIdentity());
 				$this->enable = true;
 			}
 		}

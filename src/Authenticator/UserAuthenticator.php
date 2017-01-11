@@ -3,7 +3,6 @@
 namespace NAttreid\Security\Authenticator;
 
 use NAttreid\Security\Model\Orm;
-use NAttreid\Security\Model\User;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Identity;
 use Nette\Security\Passwords;
@@ -51,11 +50,7 @@ class UserAuthenticator implements IAuthenticator
 		}
 		$this->orm->users->setValid($user->id);
 
-		$arr = $user->toArray($user::TO_ARRAY_RELATIONSHIP_AS_ID);
-		unset($arr['password']);
-
-		$roles = $user->getRoles();
-		return new Identity($user->id, $roles, $arr);
+		return $user->getIdentity();
 	}
 
 	/**
@@ -68,12 +63,7 @@ class UserAuthenticator implements IAuthenticator
 	{
 		$user = $this->orm->users->getRefreshUserData($userId);
 		if ($user) {
-			$roles = $user->getRoles();
-
-			$arr = $user->toArray($user::TO_ARRAY_RELATIONSHIP_AS_ID);
-			unset($arr['password']);
-
-			return new Identity($user->id, $roles, $arr);
+			return $user->getIdentity();
 		}
 		return null;
 	}

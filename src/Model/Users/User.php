@@ -5,6 +5,7 @@ namespace NAttreid\Security\Model;
 use NAttreid\Utils\PhoneNumber;
 use Nette\InvalidArgumentException;
 use Nette\Security\AuthenticationException;
+use Nette\Security\Identity;
 use Nette\Security\Passwords;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
@@ -108,6 +109,18 @@ class User extends Entity
 	protected function getterFullName()
 	{
 		return $this->firstName . ' ' . $this->surname;
+	}
+
+	/**
+	 * @return Identity
+	 */
+	public function getIdentity()
+	{
+		$arr = $this->toArray(self::TO_ARRAY_RELATIONSHIP_AS_ID);
+		unset($arr['password']);
+
+		$roles = $this->getRoles();
+		return new Identity($this->id, $roles, $arr);
 	}
 
 	/**
