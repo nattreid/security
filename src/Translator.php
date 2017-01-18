@@ -1,4 +1,5 @@
 <?php
+
 namespace NAttreid\Security;
 
 use NAttreid\AppManager\AppManager;
@@ -38,7 +39,7 @@ class Translator
 	public function translate($name)
 	{
 		if ($this->translator !== null) {
-			return $this->translator->translate('crm.roles.' . $name);
+			return $this->translator->translate('security.roles.' . $name);
 		}
 		return $name;
 	}
@@ -53,10 +54,10 @@ class Translator
 		if ($this->translator !== null) {
 			$translator = $this->translator;
 			$catalogue = $translator->getCatalogue($translator->getLocale());
-			foreach ($catalogue->all('crm') as $key => $value) {
-				$catalogue->set($key, $value, 'crm');
+			foreach ($catalogue->all('security') as $key => $value) {
+				$catalogue->set($key, $value, 'security');
 			}
-			$catalogue->set('roles.' . $name, $title, 'crm');
+			$catalogue->set('roles.' . $name, $title, 'security');
 
 			$invalidateCache = !file_exists($this->langDir);
 			$this->writer->writeTranslations($catalogue, 'neon', ['path' => $this->langDir]);
