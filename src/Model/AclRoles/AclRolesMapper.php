@@ -21,8 +21,6 @@ class AclRolesMapper extends Mapper
 
 	protected function createTable(Table $table)
 	{
-		$table->setDefaultDataFile(__DIR__ . '/roles.sql');
-
 		$table->addPrimaryKey('id')
 			->int()
 			->setAutoIncrement();
@@ -35,5 +33,36 @@ class AclRolesMapper extends Mapper
 			->int()
 			->setDefault(null)
 			->setKey();
+
+		$this->afterCreateTable[] = function () {
+			$this->insert([
+				[
+					'id' => 1,
+					'name' => self::GUEST,
+					'parentId' => null,
+					'position' => 1
+				], [
+					'id' => 2,
+					'name' => self::USER,
+					'parentId' => 1,
+					'position' => 3
+				], [
+					'id' => 3,
+					'name' => self::EDITOR,
+					'parentId' => 2,
+					'position' => 4
+				], [
+					'id' => 4,
+					'name' => self::ADMIN,
+					'parentId' => 3,
+					'position' => 5
+				], [
+					'id' => 5,
+					'name' => self::SUPERADMIN,
+					'parentId' => null,
+					'position' => 2
+				]
+			]);
+		};
 	}
 }
