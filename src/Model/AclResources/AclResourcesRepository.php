@@ -2,8 +2,12 @@
 
 namespace NAttreid\Security\Model;
 
+use Kdyby\Translation\ITranslator;
 use NAttreid\Orm\Repository;
 use Nette\InvalidArgumentException;
+use Nextras\Orm\Collection\ICollection;
+use Nextras\Orm\Mapper\IMapper;
+use Nextras\Orm\Repository\IDependencyProvider;
 
 /**
  * Acl Resources Repository
@@ -17,6 +21,16 @@ class AclResourcesRepository extends Repository
 
 	/** @var AclResourcesMapper */
 	protected $mapper;
+
+	/** @var ITranslator */
+	private $translator;
+
+
+	public function __construct(IMapper $mapper, IDependencyProvider $dependencyProvider = null, ITranslator $translator)
+	{
+		parent::__construct($mapper, $dependencyProvider);
+		$this->translator = $translator;
+	}
 
 	public static function getEntityClassNames()
 	{
@@ -91,11 +105,26 @@ class AclResourcesRepository extends Repository
 	}
 
 	/**
-	 * Vrati pole [id, resource] serazene podle [resource]
+	 * @return ICollection|AclResource[]
+	 */
+	public function findByResource()
+	{
+		return $this->findAll()->orderBy('resource');
+	}
+
+	/**
+	 * Vrati pole [id, translatedName (resource) ] serazene podle [resource]
 	 * @return array
 	 */
-	public function fetchPairsByResource()
+	public function fetchPairsByResourceName()
 	{
-		return $this->findAll()->orderBy('resource')->fetchPairs('id', 'resource');
+		$result = [];
+		$rows = $this->findByResource();
+		foreach ($rows as $row) {
+			$result[$row->id] = $this->translator !== null ?
+				$this->translator->translate($row->name) . ' (' . $row->resource . ')'
+				: $row->resource;
+		}
+		return $result;
 	}
 }

@@ -4,7 +4,6 @@ namespace NAttreid\Security\Model;
 
 use NAttreid\Orm\Repository;
 use Nextras\Orm\Collection\ICollection;
-use Nextras\Orm\Entity\IEntity;
 
 /**
  * Acl Roles Repository
@@ -44,7 +43,7 @@ class AclRolesRepository extends Repository
 	}
 
 	/**
-	 * Vrati pole [id, name] serazene podle [name]
+	 * Vrati pole [id, name] serazene podle [id]
 	 * @return array
 	 */
 	public function fetchPairs()
