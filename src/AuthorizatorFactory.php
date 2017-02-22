@@ -3,10 +3,10 @@
 namespace NAttreid\Security;
 
 use NAttreid\AppManager\AppManager;
-use NAttreid\Security\Model\Acl;
-use NAttreid\Security\Model\AclResource;
-use NAttreid\Security\Model\AclRole;
-use NAttreid\Security\Model\AclRolesMapper;
+use NAttreid\Security\Model\Acl\Acl;
+use NAttreid\Security\Model\AclResources\AclResource;
+use NAttreid\Security\Model\AclRoles\AclRole;
+use NAttreid\Security\Model\AclRoles\AclRolesMapper;
 use NAttreid\Security\Model\Orm;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;

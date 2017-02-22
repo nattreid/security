@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\Acl;
 
 use NAttreid\Orm\Repository;
 

@@ -1,8 +1,11 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\Acl;
 
 use NAttreid\Orm\Structure\Table;
+use NAttreid\Security\Model\AclResources\AclResourcesMapper;
+use NAttreid\Security\Model\AclRoles\AclRolesMapper;
+use NAttreid\Security\Model\Mapper;
 
 /**
  * Acl Mapper

@@ -1,7 +1,9 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\AclResources;
 
+use NAttreid\Security\Model\Acl\Acl;
+use NAttreid\Security\Model\Orm;
 use Nextras\Orm\Entity\Entity;
 use Nextras\Orm\Relationships\OneHasMany;
 

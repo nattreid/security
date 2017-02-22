@@ -1,7 +1,8 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\Users;
 
+use NAttreid\Security\Model\AclRoles\AclRole;
 use NAttreid\Utils\PhoneNumber;
 use Nette\InvalidArgumentException;
 use Nette\Security\AuthenticationException;

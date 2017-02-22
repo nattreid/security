@@ -1,7 +1,9 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\Acl;
 
+use NAttreid\Security\Model\AclResources\AclResource;
+use NAttreid\Security\Model\AclRoles\AclRole;
 use Nextras\Orm\Entity\Entity;
 
 /**

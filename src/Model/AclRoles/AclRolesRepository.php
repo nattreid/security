@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\AclRoles;
 
 use NAttreid\Orm\Repository;
 use Nextras\Orm\Collection\ICollection;

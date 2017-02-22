@@ -1,5 +1,5 @@
 <?php
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\AclResources;
 
 use Nette\NotSupportedException;
 use Nette\SmartObject;
@@ -39,7 +39,8 @@ class ResourceItem implements \ArrayAccess
 
 	/**
 	 * ResourceItem constructor.
-	 * @param $data
+	 * @param AclResource|string $data
+	 * @param string $role
 	 * @param ResourceItem|null $parent
 	 */
 	public function __construct($data, $role, self $parent = null)

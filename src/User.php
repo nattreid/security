@@ -4,11 +4,12 @@ namespace NAttreid\Security;
 
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use NAttreid\Security\Authenticator\Authenticator;
-use NAttreid\Security\Model\AclResource;
+use NAttreid\Security\Model\AclResources\AclResource;
 use NAttreid\Security\Model\Orm;
 use Nette\Http\Request;
 use Nette\Http\Response;
 use Nette\Http\Session;
+use Nette\Http\UserStorage;
 use Nette\InvalidStateException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthorizator;
@@ -106,7 +107,10 @@ class User extends NUser
 	 */
 	public function setNamespace($namespace)
 	{
-		$this->getStorage()->setNamespace($namespace);
+		$storage = $this->getStorage();
+		if ($storage instanceof UserStorage) {
+			$storage->setNamespace($namespace);
+		}
 		$this->initIdentity();
 	}
 

@@ -1,6 +1,11 @@
 <?php
 
 namespace NAttreid\Security\Model;
+
+use NAttreid\Security\Model\Acl\AclRepository;
+use NAttreid\Security\Model\AclResources\AclResourcesRepository;
+use NAttreid\Security\Model\AclRoles\AclRolesRepository;
+use NAttreid\Security\Model\Users\UsersRepository;
 use Nextras\Orm\Model\Model;
 
 /**

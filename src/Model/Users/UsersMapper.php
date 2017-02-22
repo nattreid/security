@@ -1,8 +1,10 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\Users;
 
 use NAttreid\Orm\Structure\Table;
+use NAttreid\Security\Model\AclRoles\AclRolesMapper;
+use NAttreid\Security\Model\Mapper;
 use Nette\Caching\Cache;
 use Nette\Security\AuthenticationException;
 

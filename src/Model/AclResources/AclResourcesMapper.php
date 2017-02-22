@@ -1,10 +1,12 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\AclResources;
 
 use NAttreid\Orm\Structure\Table;
+use NAttreid\Security\Model\Acl\Acl;
+use NAttreid\Security\Model\Mapper;
+use NAttreid\Security\Model\Orm;
 use Nette\Caching\Cache;
-use Tracy\Debugger;
 
 /**
  * Acl Resources Mapper

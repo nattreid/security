@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\AclResources;
 
 use Kdyby\Translation\ITranslator;
 use NAttreid\Orm\Repository;
@@ -85,7 +85,7 @@ class AclResourcesRepository extends Repository
 
 	/**
 	 * @param string $role
-	 * @param string $parent
+	 * @param string $resource
 	 * @return ResourceItem
 	 */
 	public function getResource($role, $resource)

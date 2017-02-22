@@ -1,7 +1,8 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\AclRoles;
 
+use NAttreid\Security\Model\Users\User;
 use NAttreid\Security\Translator;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Strings;

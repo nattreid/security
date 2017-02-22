@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Security\Model;
+namespace NAttreid\Security\Model\Users;
 
 use NAttreid\Orm\Repository;
 use Nextras\Orm\Entity\IEntity;
@@ -59,7 +59,7 @@ class UsersRepository extends Repository
 	/**
 	 * Vrati uzivatele podle hash ID
 	 * @param string $hash
-	 * @return User
+	 * @return IEntity|User
 	 */
 	public function getByHashId($hash)
 	{
