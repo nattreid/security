@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\Acl;
 
 use NAttreid\Orm\Structure\Table;
@@ -26,7 +28,7 @@ class AclMapper extends Mapper
 			->varChar(20)
 			->setKey();
 		$table->addColumn('allowed')
-			->boolean()
+			->bool()
 			->setDefault(1)
 			->setKey();
 		$table->addUnique('roleId', 'resourceId', 'privilege');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Authenticator;
 
 use Nette\Security\AuthenticationException;
@@ -14,5 +16,5 @@ interface IAuthenticator extends \Nette\Security\IAuthenticator
 	 * @return Identity|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshIdentity($userId);
+	public function getRefreshIdentity(int $userId);
 }

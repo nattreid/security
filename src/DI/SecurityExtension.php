@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\DI;
 
 use NAttreid\AppManager\AppManager;
@@ -85,7 +87,7 @@ class SecurityExtension extends CompilerExtension
 	 * @param mixed $class
 	 * @return string
 	 */
-	private function getClass($class)
+	private function getClass($class): string
 	{
 		if ($class instanceof Statement) {
 			return $class->getEntity();

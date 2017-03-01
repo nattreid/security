@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\Acl;
 
 use NAttreid\Orm\Repository;
@@ -20,12 +22,12 @@ class AclRepository extends Repository
 	}
 
 	/**
-	 * @param $resource
-	 * @param $role
+	 * @param string $resource
+	 * @param string $role
 	 * @param string $privilege
 	 * @return Acl|null
 	 */
-	public function getPermission($resource, $role, $privilege = Acl::PRIVILEGE_VIEW)
+	public function getPermission(string $resource, string $role, string $privilege = Acl::PRIVILEGE_VIEW)
 	{
 		return $this->getBy([
 			'this->resource->resource' => $resource,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\AclRoles;
 
 use NAttreid\Security\Model\Users\User;
@@ -47,7 +49,7 @@ class AclRole extends Entity
 	 * @throws UniqueConstraintViolationException
 	 * @throws InvalidArgumentException
 	 */
-	public function setName($name)
+	public function setName(string $name)
 	{
 		if ($name === '') {
 			throw new InvalidArgumentException;
@@ -69,7 +71,7 @@ class AclRole extends Entity
 	 * Vrati nazev role
 	 * @return string
 	 */
-	protected function getterTitle()
+	protected function getterTitle(): string
 	{
 		return $this->translator->translate($this->name);
 	}
@@ -79,7 +81,7 @@ class AclRole extends Entity
 	 * @param string $title
 	 * @return string
 	 */
-	protected function setterTitle($title)
+	protected function setterTitle($title): string
 	{
 		$this->translator->set($this->name, $title);
 		return $title;

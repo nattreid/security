@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\AclResources;
 
 use NAttreid\Security\Model\Acl\Acl;
@@ -19,17 +21,17 @@ use Nextras\Orm\Relationships\OneHasMany;
  */
 class AclResource extends Entity
 {
-	protected function getterName($value)
+	protected function getterName($value): string
 	{
 		return empty($value) ? $this->resource : $value;
 	}
 
 	/**
-	 * @param $role
+	 * @param string $role
 	 * @param string $privilege
 	 * @return bool
 	 */
-	public function isAllowed($role, $privilege = Acl::PRIVILEGE_VIEW)
+	public function isAllowed(string $role, string $privilege = Acl::PRIVILEGE_VIEW): bool
 	{
 		/* @var $orm Orm */
 		$orm = $this->getModel();

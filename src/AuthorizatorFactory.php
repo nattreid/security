@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security;
 
 use NAttreid\AppManager\AppManager;
+use NAttreid\Security\Authenticator\IAuthenticator;
 use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\Model\AclResources\AclResource;
 use NAttreid\Security\Model\AclRoles\AclRole;
@@ -59,7 +62,7 @@ class AuthorizatorFactory
 	 * Vytvoreni pravidel
 	 * @return IAuthorizator
 	 */
-	public function create()
+	public function create(): IAuthenticator
 	{
 		$key = 'AuthorizatorCache';
 		$result = $this->cache->load($key);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\Users;
 
 use NAttreid\Orm\Structure\Table;
@@ -25,7 +27,7 @@ class UsersMapper extends Mapper
 			->int()
 			->setAutoIncrement();
 		$table->addColumn('active')
-			->boolean()
+			->bool()
 			->setDefault(1);
 		$table->addColumn('username')
 			->varChar(50)
@@ -60,7 +62,7 @@ class UsersMapper extends Mapper
 	 * @return User|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshUserData($userId)
+	public function getRefreshUserData(int $userId)
 	{
 		$acceptedUsers = $this->cache->load($this->key);
 
@@ -86,7 +88,7 @@ class UsersMapper extends Mapper
 	 * Invaliduje identitu
 	 * @param int $userId
 	 */
-	public function invalidateIdentity($userId)
+	public function invalidateIdentity(int $userId)
 	{
 		$acceptedUsers = $this->cache->load($this->key);
 
@@ -101,7 +103,7 @@ class UsersMapper extends Mapper
 	 * Prida identitu jako validni
 	 * @param int $userId
 	 */
-	public function setValid($userId)
+	public function setValid(int $userId)
 	{
 		$acceptedUsers = $this->cache->load($this->key);
 

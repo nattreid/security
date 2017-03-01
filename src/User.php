@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security;
 
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
@@ -105,7 +107,7 @@ class User extends NUser
 	 * Nastavi namespace pro autentizaci
 	 * @param string $namespace
 	 */
-	public function setNamespace($namespace)
+	public function setNamespace(string $namespace)
 	{
 		$storage = $this->getStorage();
 		if ($storage instanceof UserStorage) {
@@ -163,10 +165,10 @@ class User extends NUser
 
 	/**
 	 * Je klientsky prohlizec mobilni verze?
-	 * @param boolean $tablet patri do skupiny i tablety
-	 * @return boolean
+	 * @param bool $tablet patri do skupiny i tablety
+	 * @return bool
 	 */
-	public function isMobile($tablet = true)
+	public function isMobile(bool $tablet = true): bool
 	{
 		$session = $this->session->getSection('user');
 
@@ -181,7 +183,7 @@ class User extends NUser
 	 * Vrati uzivatelske uid
 	 * @return string
 	 */
-	public function getUid()
+	public function getUid(): string
 	{
 		$uid = $this->request->getCookie(self::TRACKING_COOKIE);
 		if (empty($uid)) {

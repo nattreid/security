@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\AclRoles;
 
 use NAttreid\Orm\Repository;
@@ -26,9 +28,9 @@ class AclRolesRepository extends Repository
 	/**
 	 * Vrati roli podle jmena
 	 * @param string $name
-	 * @return AclRole
+	 * @return AclRole|null
 	 */
-	public function getByName($name)
+	public function getByName(string $name)
 	{
 		return $this->getBy(['name' => $name]);
 	}
@@ -37,7 +39,7 @@ class AclRolesRepository extends Repository
 	 * Vrati serazene role pro acl
 	 * @return ICollection|AclRole[]
 	 */
-	public function findSorted()
+	public function findSorted(): ICollection
 	{
 		return $this->findAll()->orderBy('position');
 	}
@@ -46,7 +48,7 @@ class AclRolesRepository extends Repository
 	 * Vrati pole [id, name] serazene podle [id]
 	 * @return array
 	 */
-	public function fetchPairs()
+	public function fetchPairs(): array
 	{
 		return $this->findAll()->orderBy('id')->fetchPairs('id', 'title');
 	}

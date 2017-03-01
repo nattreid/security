@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Authenticator;
 
 use Exception;
@@ -39,7 +41,7 @@ class Authenticator implements IAuthenticator
 	 * @return IAuthenticator
 	 * @throws UnexpectedValueException
 	 */
-	private function getAuthenticator()
+	private function getAuthenticator(): IAuthenticator
 	{
 		$ns = $this->userStorage->getNamespace();
 		if (isset($this->mapper[$ns])) {
@@ -56,7 +58,7 @@ class Authenticator implements IAuthenticator
 	 * @param string $src
 	 * @param string $dest
 	 */
-	public function addMapping($src, $dest)
+	public function addMapping(string $src, string $dest)
 	{
 		$this->mapper[$src] = $dest;
 	}
@@ -66,7 +68,7 @@ class Authenticator implements IAuthenticator
 	 * @param string $namespace
 	 * @param IAuthenticator $authenticator
 	 */
-	public function add($namespace, IAuthenticator $authenticator)
+	public function add(string $namespace, IAuthenticator $authenticator)
 	{
 		$this->authenticators[$namespace] = $authenticator;
 	}
@@ -77,7 +79,7 @@ class Authenticator implements IAuthenticator
 	 * @return IIdentity
 	 * @throws Exception
 	 */
-	public function authenticate(array $credentials)
+	public function authenticate(array $credentials): IIdentity
 	{
 		return $this->getAuthenticator()->authenticate($credentials);
 	}
@@ -88,7 +90,7 @@ class Authenticator implements IAuthenticator
 	 * @return Identity|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshIdentity($userId)
+	public function getRefreshIdentity(int $userId)
 	{
 		return $this->getAuthenticator()->getRefreshIdentity($userId);
 	}

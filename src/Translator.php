@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security;
 
 use NAttreid\AppManager\AppManager;
@@ -24,7 +26,7 @@ class Translator
 	/** @var AppManager */
 	private $appManager;
 
-	public function __construct($langDir, \Kdyby\Translation\Translator $translator = null, TranslationWriter $writer = null, AppManager $appManager)
+	public function __construct(string $langDir, \Kdyby\Translation\Translator $translator = null, TranslationWriter $writer = null, AppManager $appManager)
 	{
 		$this->langDir = $langDir;
 		$this->translator = $translator;
@@ -36,7 +38,7 @@ class Translator
 	 * @param string $name
 	 * @return string
 	 */
-	public function translate($name)
+	public function translate(string $name): String
 	{
 		if ($this->translator !== null) {
 			return $this->translator->translate('security.roles.' . $name);
@@ -49,7 +51,7 @@ class Translator
 	 * @param string $title
 	 * @return string
 	 */
-	public function set($name, $title)
+	public function set(string $name, string $title): string
 	{
 		if ($this->translator !== null) {
 			$translator = $this->translator;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\Users;
 
 use NAttreid\Orm\Repository;
@@ -41,7 +43,7 @@ class UsersRepository extends Repository
 	 * Prida identitu jako validni
 	 * @param int $userId
 	 */
-	public function setValid($userId)
+	public function setValid(int $userId)
 	{
 		$this->mapper->setValid($userId);
 	}
@@ -49,9 +51,9 @@ class UsersRepository extends Repository
 	/**
 	 * Vrati uzivatele podle jmena
 	 * @param string $username
-	 * @return User
+	 * @return User|null
 	 */
-	public function getByUsername($username)
+	public function getByUsername(string $username)
 	{
 		return $this->getBy(['username' => $username]);
 	}
@@ -59,9 +61,9 @@ class UsersRepository extends Repository
 	/**
 	 * Vrati uzivatele podle hash ID
 	 * @param string $hash
-	 * @return IEntity|User
+	 * @return IEntity|User|null
 	 */
-	public function getByHashId($hash)
+	public function getByHashId(string $hash)
 	{
 		return $this->mapper->getByHash('id', $hash);
 	}
@@ -73,14 +75,14 @@ class UsersRepository extends Repository
 	 */
 	public function getByEmail($email)
 	{
-		return $this->findBy(['email' => $email])->fetch();
+		return $this->getBy(['email' => $email]);
 	}
 
 	/**
 	 * Invaliduje identitu
 	 * @param int $userId
 	 */
-	public function invalidateIdentity($userId)
+	public function invalidateIdentity(int $userId)
 	{
 		return $this->mapper->invalidateIdentity($userId);
 	}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\Users;
 
 use NAttreid\Security\Model\AclRoles\AclRole;
@@ -18,7 +20,7 @@ use Nextras\Orm\Relationships\ManyHasMany;
  * User
  *
  * @property int $id {primary}
- * @property boolean $active {default true}
+ * @property bool $active {default true}
  * @property string $username
  * @property string|null $firstName
  * @property string|null $surname
@@ -40,7 +42,7 @@ class User extends Entity
 	 * @param string $oldPassword
 	 * @throws AuthenticationException
 	 */
-	public function setPassword($newPassword, $oldPassword = null)
+	public function setPassword(string $newPassword, string $oldPassword = null)
 	{
 		if ($oldPassword != null) {
 			if (!Passwords::verify($oldPassword, $this->password)) {
@@ -56,7 +58,7 @@ class User extends Entity
 	 * @throws UniqueConstraintViolationException
 	 * @throws InvalidArgumentException
 	 */
-	public function setUsername($username)
+	public function setUsername(string $username)
 	{
 		if (Strings::match($username, '/[^A-Za-z0-9_]/')) {
 			throw new InvalidArgumentException('Username contains invalid characters');
@@ -77,7 +79,7 @@ class User extends Entity
 	 * @throws UniqueConstraintViolationException
 	 * @throws InvalidArgumentException
 	 */
-	public function setEmail($email)
+	public function setEmail(string $email)
 	{
 		if (!Validators::isEmail($email)) {
 			throw new InvalidArgumentException('Value is not valid email');
@@ -107,7 +109,7 @@ class User extends Entity
 	 * Vrati cele jmeno
 	 * @return string
 	 */
-	protected function getterFullName()
+	protected function getterFullName(): string
 	{
 		return $this->firstName . ' ' . $this->surname;
 	}
@@ -115,7 +117,7 @@ class User extends Entity
 	/**
 	 * @return Identity
 	 */
-	public function getIdentity()
+	public function getIdentity(): Identity
 	{
 		$arr = $this->toArray(self::TO_ARRAY_RELATIONSHIP_AS_ID);
 		unset($arr['password']);
@@ -128,7 +130,7 @@ class User extends Entity
 	 * Vrati jmena roli
 	 * @return array
 	 */
-	public function getRoles()
+	public function getRoles(): array
 	{
 		$result = [];
 		$roles = $this->roles->get();
@@ -143,7 +145,7 @@ class User extends Entity
 	 * Vrati nazvy roli
 	 * @return array
 	 */
-	public function getRoleTitles()
+	public function getRoleTitles(): array
 	{
 		$result = [];
 		$roles = $this->roles->get();

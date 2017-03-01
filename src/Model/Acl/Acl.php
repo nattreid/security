@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\Acl;
 
 use NAttreid\Security\Model\AclResources\AclResource;
@@ -13,7 +15,7 @@ use Nextras\Orm\Entity\Entity;
  * @property AclRole $role {m:1 AclRole, oneSided=true}
  * @property AclResource $resource {m:1 AclResource::$permissions}
  * @property string $privilege {enum self::PRIVILEGE_*}
- * @property boolean $allowed {default true}
+ * @property bool $allowed {default true}
  *
  * @author Attreid <attreid@gmail.com>
  */

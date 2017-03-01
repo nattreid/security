@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Authenticator;
 
 use NAttreid\Security\Model\Orm;
@@ -32,7 +34,7 @@ class UserAuthenticator implements IAuthenticator
 	 * @return Identity
 	 * @throws AuthenticationException
 	 */
-	public function authenticate(array $credentials)
+	public function authenticate(array $credentials): Identity
 	{
 		list($username, $password) = $credentials;
 
@@ -59,7 +61,7 @@ class UserAuthenticator implements IAuthenticator
 	 * @return Identity|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshIdentity($userId)
+	public function getRefreshIdentity(int $userId)
 	{
 		$user = $this->orm->users->getRefreshUserData($userId);
 		if ($user) {

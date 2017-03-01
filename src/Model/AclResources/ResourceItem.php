@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\AclResources;
 
 use Nette\NotSupportedException;
@@ -31,7 +33,7 @@ class ResourceItem implements \ArrayAccess
 	/** @var ResourceItem[] */
 	private $items;
 
-	/** @var boolean */
+	/** @var bool */
 	private $_allowed = false;
 
 	/** @var ResourceItem|null */
@@ -43,7 +45,7 @@ class ResourceItem implements \ArrayAccess
 	 * @param string $role
 	 * @param ResourceItem|null $parent
 	 */
-	public function __construct($data, $role, self $parent = null)
+	public function __construct($data, string $role, self $parent = null)
 	{
 		if ($data instanceof AclResource) {
 			$this->name = $data->name;
@@ -68,17 +70,17 @@ class ResourceItem implements \ArrayAccess
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getId()
+	public function getId(): string
 	{
 		return $this->id;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isAllowed()
+	public function isAllowed(): bool
 	{
 		return $this->_allowed;
 	}
@@ -86,7 +88,7 @@ class ResourceItem implements \ArrayAccess
 	/**
 	 * @return string
 	 */
-	protected function getResource()
+	protected function getResource(): string
 	{
 		return $this->resource;
 	}
@@ -94,7 +96,7 @@ class ResourceItem implements \ArrayAccess
 	/**
 	 * @return string
 	 */
-	protected function getName()
+	protected function getName(): string
 	{
 		return $this->name;
 	}
@@ -102,7 +104,7 @@ class ResourceItem implements \ArrayAccess
 	/**
 	 * @return ResourceItem[]
 	 */
-	protected function getItems()
+	protected function getItems(): array
 	{
 		return $this->items;
 	}
@@ -110,17 +112,17 @@ class ResourceItem implements \ArrayAccess
 	/**
 	 * @return bool
 	 */
-	public function hasChildren()
+	public function hasChildren(): bool
 	{
 		return count($this->items) > 0;
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @param ResourceItem $item
 	 * @return ResourceItem
 	 */
-	public function addItem($name, ResourceItem $item)
+	public function addItem(string $name, ResourceItem $item): ResourceItem
 	{
 		return $this->items[$name] = $item;
 	}
@@ -132,10 +134,10 @@ class ResourceItem implements \ArrayAccess
 	 * @param mixed $offset <p>
 	 * An offset to check for.
 	 * </p>
-	 * @return boolean true on success or false on failure.
+	 * @return bool true on success or false on failure.
 	 * </p>
 	 * <p>
-	 * The return value will be casted to boolean if non-boolean was returned.
+	 * The return value will be casted to bool if non-bool was returned.
 	 * @since 5.0.0
 	 */
 	public function offsetExists($offset)

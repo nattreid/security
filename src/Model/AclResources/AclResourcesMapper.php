@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model\AclResources;
 
 use NAttreid\Orm\Structure\Table;
@@ -60,10 +62,10 @@ class AclResourcesMapper extends Mapper
 	}
 
 	/**
-	 * @param $role
+	 * @param string $role
 	 * @return ResourceItem[]
 	 */
-	public function getResources($role)
+	public function getResources(string $role)
 	{
 		$key = 'resourceList-' . $role;
 		$rows = $this->cache->load($key);

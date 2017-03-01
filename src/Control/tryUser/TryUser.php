@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Control;
 
 use NAttreid\Security\Model\Orm;
@@ -24,7 +26,7 @@ class TryUser extends Control
 	/** @var int @persistent */
 	public $id;
 
-	/** @var boolean */
+	/** @var bool */
 	private $enable = false;
 
 	/** @var Identity */
@@ -48,7 +50,7 @@ class TryUser extends Control
 	/** @var string */
 	private $permission = 'security.tryUser';
 
-	public function __construct($redirect, Model $orm, Hasher $hasher, User $user, Session $session)
+	public function __construct(string $redirect, Model $orm, Hasher $hasher, User $user, Session $session)
 	{
 		parent::__construct();
 		$this->orm = $orm;
@@ -65,7 +67,7 @@ class TryUser extends Control
 		}
 	}
 
-	protected function setPermission($value)
+	protected function setPermission(string $value)
 	{
 		$this->permission = $value;
 	}
@@ -73,7 +75,7 @@ class TryUser extends Control
 	/**
 	 * @return bool
 	 */
-	public function isEnable()
+	public function isEnable(): bool
 	{
 		return $this->enable;
 	}
@@ -95,9 +97,9 @@ class TryUser extends Control
 	/**
 	 * Nastavi testovaci ucet a presmeruje
 	 * @param int $id
-	 * @return boolean pokud uzivatel nema prava k teto metode, vrati false
+	 * @return bool pokud uzivatel nema prava k teto metode, vrati false
 	 */
-	public function set($id)
+	public function set(int $id): bool
 	{
 		if (!$this->isAllowed()) {
 			return false;
@@ -113,9 +115,9 @@ class TryUser extends Control
 
 	/**
 	 * Ma prava pro testovani uzivatelu
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isAllowed()
+	public function isAllowed(): bool
 	{
 		return $this->user->isAllowed($this->permission, 'view');
 	}
@@ -149,5 +151,5 @@ interface ITryUserFactory
 	 * @param $redirect
 	 * @return TryUser
 	 */
-	public function create($redirect);
+	public function create($redirect): TryUser;
 }

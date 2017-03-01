@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Security\Model;
 
 use NAttreid\Security\Model\Acl\AclRepository;
