@@ -148,8 +148,8 @@ class TryUser extends Control
 interface ITryUserFactory
 {
 	/**
-	 * @param $redirect
+	 * @param string $redirect
 	 * @return TryUser
 	 */
-	public function create($redirect): TryUser;
+	public function create(string $redirect): TryUser;
 }

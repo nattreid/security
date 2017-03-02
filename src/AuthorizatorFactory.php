@@ -62,7 +62,7 @@ class AuthorizatorFactory
 	 * Vytvoreni pravidel
 	 * @return IAuthorizator
 	 */
-	public function create(): IAuthenticator
+	public function create(): IAuthorizator
 	{
 		$key = 'AuthorizatorCache';
 		$result = $this->cache->load($key);

@@ -132,6 +132,7 @@ class User extends NUser
 	 */
 	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, $name = null)
 	{
+		$this->getAuthorizator();
 		try {
 			return parent::isAllowed($resource, $privilege);
 		} catch (InvalidStateException $ex) {
