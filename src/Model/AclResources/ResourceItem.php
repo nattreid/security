@@ -31,7 +31,7 @@ class ResourceItem implements \ArrayAccess
 	private $id;
 
 	/** @var ResourceItem[] */
-	private $items;
+	private $items = [];
 
 	/** @var bool */
 	private $_allowed = false;
