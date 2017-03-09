@@ -9,7 +9,7 @@ use Nette\SmartObject;
 /**
  * Class ResourceItem
  *
- * @property-read string $resource
+ * @property-read string|null $resource
  * @property-read string $name
  * @property-read ResourceItem[] $items
  * @property-read string $id
@@ -86,9 +86,9 @@ class ResourceItem implements \ArrayAccess
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	protected function getResource(): string
+	protected function getResource()
 	{
 		return $this->resource;
 	}
