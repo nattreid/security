@@ -99,7 +99,7 @@ class User extends Entity
 	 */
 	public function setPhone($phone)
 	{
-		if ($phone !== null && !PhoneNumber::validatePhone($phone)) {
+		if ($phone !== null && !PhoneNumber::validatePhone((string)$phone)) {
 			throw new InvalidArgumentException('Value is not valid phone');
 		}
 		$this->phone = $phone;
