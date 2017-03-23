@@ -37,7 +37,7 @@ class AclRolesMapper extends Mapper
 			->setDefault(null)
 			->setKey();
 
-		$this->afterCreateTable[] = function () {
+		$this->onCreateTable[] = function () {
 			$this->insert([
 				[
 					'id' => 1,
