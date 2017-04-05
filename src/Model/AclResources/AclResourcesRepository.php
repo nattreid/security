@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\Model\AclResources;
 
@@ -123,9 +123,7 @@ class AclResourcesRepository extends Repository
 		$result = [];
 		$rows = $this->findByResource();
 		foreach ($rows as $row) {
-			$result[$row->id] = $this->translator !== null ?
-				$this->translator->translate($row->name) . ' (' . $row->resource . ')'
-				: $row->resource;
+			$result[$row->id] = $row->resource . ($this->translator ? ' - ( ' . $this->translator->translate($row->name) . ' )' : '');
 		}
 		return $result;
 	}
