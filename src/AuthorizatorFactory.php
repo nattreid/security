@@ -55,7 +55,6 @@ class AuthorizatorFactory
 		$this->cache->clean([
 			Cache::TAGS => [$this->tag]
 		]);
-		$this->orm->aclResources->cleanCache();
 	}
 
 	/**

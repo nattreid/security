@@ -22,7 +22,7 @@
   },
   "require-dev": {
     "nette/tester": "~1.7",
-    "nattreid/appmanager": "~1.0",
+    "nattreid/app-manager": "~1.0",
     "tracy/tracy": "~2.4",
     "attreid/translation": "~2.4"
   },

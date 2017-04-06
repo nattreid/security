@@ -48,62 +48,12 @@ class AclResourcesRepository extends Repository
 	}
 
 	/**
-	 * Smaze cache
-	 */
-	public function cleanCache()
-	{
-		$this->mapper->cleanCache();
-	}
-
-	/**
 	 * @param string $resource
 	 * @return AclResource
 	 */
 	public function getByResource(string $resource)
 	{
 		return $this->getBy(['resource' => $resource]);
-	}
-
-	/**
-	 * @param string $role
-	 * @param string $parent
-	 * @return ResourceItem[]
-	 */
-	public function getResources(string $role, string $parent = null)
-	{
-		$result = $this->mapper->getResources($role);
-		if ($parent !== null) {
-			$list = explode('.', $parent);
-			foreach ($list as $name) {
-				if (!isset($result[$name])) {
-					throw new InvalidArgumentException;
-				} else {
-					$result = $result[$name]->items;
-				}
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * @param string $role
-	 * @param string $resource
-	 * @return ResourceItem
-	 */
-	public function getResource(string $role, string $resource)
-	{
-		$result = null;
-		$resources = $this->mapper->getResources($role);
-		$list = explode('.', $resource);
-		foreach ($list as $name) {
-			if (!isset($resources[$name])) {
-				throw new InvalidArgumentException;
-			} else {
-				$result = $resources[$name];
-				$resources = $result->items;
-			}
-		}
-		return $result;
 	}
 
 	/**

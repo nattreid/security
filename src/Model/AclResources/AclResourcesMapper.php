@@ -17,7 +17,6 @@ use Nette\Caching\Cache;
  */
 class AclResourcesMapper extends Mapper
 {
-	private $tag = 'netta/pages';
 
 	protected function createTable(Table $table)
 	{
@@ -29,16 +28,6 @@ class AclResourcesMapper extends Mapper
 			->setUnique();
 		$table->addColumn('name')
 			->varChar(150);
-	}
-
-	/**
-	 * Smaze cache
-	 */
-	public function cleanCache()
-	{
-		$this->cache->clean([
-			Cache::TAGS => [$this->tag]
-		]);
 	}
 
 	/**

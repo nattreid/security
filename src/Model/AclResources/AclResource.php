@@ -25,21 +25,4 @@ class AclResource extends Entity
 	{
 		return empty($value) ? $this->resource : $value;
 	}
-
-	/**
-	 * @param string $role
-	 * @param string $privilege
-	 * @return bool
-	 */
-	public function isAllowed(string $role, string $privilege = Acl::PRIVILEGE_VIEW): bool
-	{
-		/* @var $orm Orm */
-		$orm = $this->getModel();
-		$permission = $orm->acl->getPermission($this->resource, $role, $privilege);
-
-		if ($permission) {
-			return $permission->allowed;
-		}
-		return false;
-	}
 }

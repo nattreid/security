@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security;
 
@@ -19,6 +19,7 @@ use Nette\Security\Identity;
 use Nette\Security\IUserStorage;
 use Nette\Security\User as NUser;
 use Nette\Utils\Random;
+use Nextras\Dbal\UniqueConstraintViolationException;
 use Nextras\Orm\Model\Model;
 use Tracy\Debugger;
 
@@ -140,7 +141,11 @@ class User extends NUser
 			$aclResource->resource = $resource;
 			$aclResource->name = $name;
 
-			$this->orm->persistAndFlush($aclResource);
+			try {
+				$this->orm->persistAndFlush($aclResource);
+			} catch (UniqueConstraintViolationException $ex) {
+
+			}
 			$this->refreshPermissions();
 			return parent::isAllowed($resource, $privilege);
 		}
