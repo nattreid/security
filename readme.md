@@ -1,5 +1,5 @@
 # Rozšíření Security pro Nette Framework
-Databázove ACL, uživatelé, authentizace a autorizace
+Databázové ACL, uživatelé, authentizace a autorizace
 
 ## Nastavení
 Nastavení v **config.neon**
@@ -16,7 +16,7 @@ securityExt:
         front: App\FrontAuthenticator
 ```
 
-A přidat do orm model. V příkladu je extension orm pod nazvem **orm**
+A přidat do orm model. V příkladu je extension orm pod názvem **orm**
 ```neon
 orm:
     add:
