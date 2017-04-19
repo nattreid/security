@@ -62,7 +62,7 @@ class User extends NUser
 		$this->initIdentity();
 	}
 
-	private function initSession()
+	private function initSession(): void
 	{
 		$session = $this->session->getSection('user');
 		$debug = !Debugger::$productionMode;
@@ -81,7 +81,7 @@ class User extends NUser
 		}
 	}
 
-	private function initIdentity()
+	private function initIdentity(): void
 	{
 		if ($this->isLoggedIn() && $this->authenticator !== null) {
 			try {
@@ -99,7 +99,7 @@ class User extends NUser
 	 * Nastavei identitu
 	 * @param Identity $identity
 	 */
-	public function setIdentity(Identity $identity)
+	public function setIdentity(Identity $identity): void
 	{
 		$this->getStorage()->setIdentity($identity);
 	}
@@ -108,7 +108,7 @@ class User extends NUser
 	 * Nastavi namespace pro autentizaci
 	 * @param string $namespace
 	 */
-	public function setNamespace(string $namespace)
+	public function setNamespace(string $namespace): void
 	{
 		$storage = $this->getStorage();
 		if ($storage instanceof UserStorage) {
@@ -120,7 +120,7 @@ class User extends NUser
 	/**
 	 * Otestuje aktualnost identity, a popripade ji aktualizuje
 	 */
-	public function invalidateIdentity()
+	public function invalidateIdentity(): void
 	{
 		$this->orm->users->invalidateIdentity($this->getId());
 	}
@@ -131,7 +131,7 @@ class User extends NUser
 	 * @param string $name
 	 * @return bool
 	 */
-	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, $name = null)
+	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, string $name = null): bool
 	{
 		$this->getAuthorizator();
 		try {
@@ -154,7 +154,7 @@ class User extends NUser
 	/**
 	 * Znovunacte opravneni uzivatele
 	 */
-	public function refreshPermissions()
+	public function refreshPermissions(): void
 	{
 		$this->authorizator = $this->authorizatorFactory->create();
 	}
@@ -163,7 +163,7 @@ class User extends NUser
 	 * Vrati zda je client robot
 	 * @return bool
 	 */
-	public function isBot()
+	public function isBot(): bool
 	{
 		$session = $this->session->getSection('user');
 		return $session->isBot;

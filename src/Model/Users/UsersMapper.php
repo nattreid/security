@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\Model\Users;
 
@@ -21,7 +21,7 @@ class UsersMapper extends Mapper
 	private $tag = 'user';
 	private $key = 'user_identity';
 
-	protected function createTable(Table $table)
+	protected function createTable(Table $table): void
 	{
 		$table->addPrimaryKey('id')
 			->int()
@@ -62,7 +62,7 @@ class UsersMapper extends Mapper
 	 * @return User|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshUserData(int $userId)
+	public function getRefreshUserData(int $userId): ?User
 	{
 		$acceptedUsers = $this->cache->load($this->key);
 
@@ -88,7 +88,7 @@ class UsersMapper extends Mapper
 	 * Invaliduje identitu
 	 * @param int $userId
 	 */
-	public function invalidateIdentity(int $userId)
+	public function invalidateIdentity(int $userId): void
 	{
 		$acceptedUsers = $this->cache->load($this->key);
 
@@ -103,7 +103,7 @@ class UsersMapper extends Mapper
 	 * Prida identitu jako validni
 	 * @param int $userId
 	 */
-	public function setValid(int $userId)
+	public function setValid(int $userId): void
 	{
 		$acceptedUsers = $this->cache->load($this->key);
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\Model\AclRoles;
 
@@ -20,7 +20,7 @@ class AclRolesRepository extends Repository
 	/** @var AclRolesMapper */
 	protected $mapper;
 
-	public static function getEntityClassNames()
+	public static function getEntityClassNames(): array
 	{
 		return [AclRole::class];
 	}
@@ -30,7 +30,7 @@ class AclRolesRepository extends Repository
 	 * @param string $name
 	 * @return AclRole|null
 	 */
-	public function getByName(string $name)
+	public function getByName(string $name): ?AclRole
 	{
 		return $this->getBy(['name' => $name]);
 	}

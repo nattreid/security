@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\DI;
 
-use NAttreid\AppManager\AppManager;
 use NAttreid\Security\Authenticator\Authenticator;
 use NAttreid\Security\Authenticator\UserAuthenticator;
 use NAttreid\Security\AuthorizatorFactory;
@@ -14,9 +13,7 @@ use NAttreid\Security\Translator;
 use NAttreid\Security\User;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Helpers;
-use Nette\DI\ServiceCreationException;
 use Nette\DI\Statement;
-use Nextras\Orm\Model\Model;
 
 /**
  * Rozsireni prihlasovaci logiky
@@ -31,7 +28,7 @@ class SecurityExtension extends CompilerExtension
 		'langDir' => '%appDir%/lang'
 	];
 
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults, $this->getConfig());
@@ -66,7 +63,7 @@ class SecurityExtension extends CompilerExtension
 			->setArguments([$config['langDir']]);
 	}
 
-	public function beforeCompile()
+	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
 

@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security;
 
 use NAttreid\AppManager\AppManager;
-use NAttreid\Security\Authenticator\IAuthenticator;
 use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\Model\AclResources\AclResource;
 use NAttreid\Security\Model\AclRoles\AclRole;
@@ -33,7 +32,7 @@ class AuthorizatorFactory
 	/** @var Orm */
 	private $orm;
 
-	public function __construct(IStorage $cacheStorage, Model $orm, AppManager $app = null)
+	public function __construct(IStorage $cacheStorage, Model $orm, ?AppManager $app)
 	{
 		$this->cache = new Cache($cacheStorage, 'nattreid-security-acl');
 		$this->orm = $orm;
@@ -50,7 +49,7 @@ class AuthorizatorFactory
 	/**
 	 * Smaze cache
 	 */
-	public function cleanCache()
+	public function cleanCache(): void
 	{
 		$this->cache->clean([
 			Cache::TAGS => [$this->tag]
@@ -88,7 +87,7 @@ class AuthorizatorFactory
 	 * Vytvoreni roli
 	 * @param Permission $permission
 	 */
-	private function createRoles(Permission $permission)
+	private function createRoles(Permission $permission): void
 	{
 		/* @var $role AclRole */
 		foreach ($this->orm->aclRoles->findSorted() as $role) {
@@ -104,7 +103,7 @@ class AuthorizatorFactory
 	 * Vytvoreni zdroju
 	 * @param Permission $permission
 	 */
-	private function createResource(Permission $permission)
+	private function createResource(Permission $permission): void
 	{
 		/* @var $resource AclResource */
 		foreach ($this->orm->aclResources->findAll() as $resource) {
@@ -116,7 +115,7 @@ class AuthorizatorFactory
 	 * Vytvoreni pravidel
 	 * @param Permission $permission
 	 */
-	private function createRules(Permission $permission)
+	private function createRules(Permission $permission): void
 	{
 		/* @var $rule Acl */
 		foreach ($this->orm->acl->findAll() as $rule) {

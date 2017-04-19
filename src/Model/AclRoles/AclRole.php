@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\Model\AclRoles;
 
@@ -31,12 +31,12 @@ class AclRole extends Entity
 	/** @var Translator */
 	private $translator;
 
-	public function injectTranslator(Translator $translator)
+	public function injectTranslator(Translator $translator): void
 	{
 		$this->translator = $translator;
 	}
 
-	protected function onBeforePersist()
+	protected function onBeforePersist(): void
 	{
 		if ($this->parent) {
 			$this->position = $this->parent->position + 1;
@@ -49,7 +49,7 @@ class AclRole extends Entity
 	 * @throws UniqueConstraintViolationException
 	 * @throws InvalidArgumentException
 	 */
-	public function setName(string $name)
+	public function setName(string $name): void
 	{
 		if ($name === '') {
 			throw new InvalidArgumentException;
@@ -81,7 +81,7 @@ class AclRole extends Entity
 	 * @param string $title
 	 * @return string
 	 */
-	protected function setterTitle($title): string
+	protected function setterTitle(string $title): string
 	{
 		$this->translator->set($this->name, $title);
 		return $title;

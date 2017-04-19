@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\Model\Acl;
 
@@ -17,7 +17,7 @@ use NAttreid\Security\Model\Mapper;
 class AclMapper extends Mapper
 {
 
-	protected function createTable(Table $table)
+	protected function createTable(Table $table): void
 	{
 		$table->addPrimaryKey('id')
 			->int()

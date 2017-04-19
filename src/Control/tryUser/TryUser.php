@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\Control;
 
@@ -67,7 +67,7 @@ class TryUser extends Control
 		}
 	}
 
-	protected function setPermission(string $value)
+	protected function setPermission(string $value): void
 	{
 		$this->permission = $value;
 	}
@@ -80,7 +80,7 @@ class TryUser extends Control
 		return $this->enable;
 	}
 
-	public function init()
+	public function init(): void
 	{
 		if (!empty($this->id) && $this->isAllowed()) {
 			$this->session->setExpiration('20 minutes');
@@ -125,7 +125,7 @@ class TryUser extends Control
 	/**
 	 * Odhlaseni role
 	 */
-	public function handleLogoutTryRole()
+	public function handleLogoutTryRole(): void
 	{
 		if (!empty($this->id)) {
 			unset($this->session[$this->id]);
@@ -134,7 +134,7 @@ class TryUser extends Control
 		$this->presenter->redirect('this');
 	}
 
-	public function render()
+	public function render(): void
 	{
 		$template = $this->template;
 		$template->setFile(__DIR__ . '/default.latte');
@@ -147,9 +147,6 @@ class TryUser extends Control
 
 interface ITryUserFactory
 {
-	/**
-	 * @param string $redirect
-	 * @return TryUser
-	 */
+
 	public function create(string $redirect): TryUser;
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\Model\Users;
 
@@ -17,7 +17,10 @@ use Nextras\Orm\Entity\IEntity;
  */
 class UsersRepository extends Repository
 {
-	protected function init()
+	/** @var UsersMapper */
+	protected $mapper;
+
+	protected function init(): void
 	{
 		$this->onFlush[] = function ($persisted, $removed) {
 			foreach ($persisted as $user) {
@@ -31,10 +34,7 @@ class UsersRepository extends Repository
 		};
 	}
 
-	/** @var UsersMapper */
-	protected $mapper;
-
-	public static function getEntityClassNames()
+	public static function getEntityClassNames(): array
 	{
 		return [User::class];
 	}
@@ -43,7 +43,7 @@ class UsersRepository extends Repository
 	 * Prida identitu jako validni
 	 * @param int $userId
 	 */
-	public function setValid(int $userId)
+	public function setValid(int $userId): void
 	{
 		$this->mapper->setValid($userId);
 	}
@@ -53,7 +53,7 @@ class UsersRepository extends Repository
 	 * @param string $username
 	 * @return User|null
 	 */
-	public function getByUsername(string $username)
+	public function getByUsername(string $username): ?User
 	{
 		return $this->getBy(['username' => $username]);
 	}
@@ -63,7 +63,7 @@ class UsersRepository extends Repository
 	 * @param string $hash
 	 * @return IEntity|User|null
 	 */
-	public function getByHashId(string $hash)
+	public function getByHashId(string $hash): ?User
 	{
 		return $this->mapper->getByHash('id', $hash);
 	}
@@ -73,7 +73,7 @@ class UsersRepository extends Repository
 	 * @param string $email
 	 * @return User|IEntity
 	 */
-	public function getByEmail($email)
+	public function getByEmail($email): ?User
 	{
 		return $this->getBy(['email' => $email]);
 	}
@@ -82,9 +82,9 @@ class UsersRepository extends Repository
 	 * Invaliduje identitu
 	 * @param int $userId
 	 */
-	public function invalidateIdentity(int $userId)
+	public function invalidateIdentity(int $userId): void
 	{
-		return $this->mapper->invalidateIdentity($userId);
+		$this->mapper->invalidateIdentity($userId);
 	}
 
 }

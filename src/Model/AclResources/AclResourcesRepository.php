@@ -6,7 +6,6 @@ namespace NAttreid\Security\Model\AclResources;
 
 use Kdyby\Translation\ITranslator;
 use NAttreid\Orm\Repository;
-use Nette\InvalidArgumentException;
 use Nextras\Orm\Collection\ICollection;
 use Nextras\Orm\Mapper\IMapper;
 use Nextras\Orm\Repository\IDependencyProvider;
@@ -34,7 +33,7 @@ class AclResourcesRepository extends Repository
 		$this->translator = $translator;
 	}
 
-	public static function getEntityClassNames()
+	public static function getEntityClassNames(): array
 	{
 		return [AclResource::class];
 	}
@@ -42,7 +41,7 @@ class AclResourcesRepository extends Repository
 	/**
 	 * Smazani nepouzitych zdroju (pro prehlednost)
 	 */
-	public function deleteUnused()
+	public function deleteUnused(): void
 	{
 		$this->mapper->deleteUnused();
 	}
@@ -51,7 +50,7 @@ class AclResourcesRepository extends Repository
 	 * @param string $resource
 	 * @return AclResource
 	 */
-	public function getByResource(string $resource)
+	public function getByResource(string $resource): ?AclResource
 	{
 		return $this->getBy(['resource' => $resource]);
 	}

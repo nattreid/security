@@ -16,7 +16,7 @@ use NAttreid\Orm\Repository;
 class AclRepository extends Repository
 {
 
-	public static function getEntityClassNames()
+	public static function getEntityClassNames(): array
 	{
 		return [Acl::class];
 	}
@@ -27,7 +27,7 @@ class AclRepository extends Repository
 	 * @param string $privilege
 	 * @return Acl|null
 	 */
-	public function getPermission(string $resource, string $role, string $privilege = Acl::PRIVILEGE_VIEW)
+	public function getPermission(string $resource, string $role, string $privilege = Acl::PRIVILEGE_VIEW): ?Acl
 	{
 		return $this->getBy([
 			'this->resource->resource' => $resource,

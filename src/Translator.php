@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security;
 
@@ -26,7 +26,7 @@ class Translator
 	/** @var AppManager */
 	private $appManager;
 
-	public function __construct(string $langDir, \Kdyby\Translation\Translator $translator = null, TranslationWriter $writer = null, AppManager $appManager)
+	public function __construct(string $langDir, ?\Kdyby\Translation\Translator $translator, ?TranslationWriter $writer, AppManager $appManager)
 	{
 		$this->langDir = $langDir;
 		$this->translator = $translator;

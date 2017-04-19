@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\Model\Users;
 
@@ -42,7 +42,7 @@ class User extends Entity
 	 * @param string $oldPassword
 	 * @throws AuthenticationException
 	 */
-	public function setPassword(string $newPassword, string $oldPassword = null)
+	public function setPassword(string $newPassword, string $oldPassword = null): void
 	{
 		if ($oldPassword != null) {
 			if (!Passwords::verify($oldPassword, $this->password)) {
@@ -58,7 +58,7 @@ class User extends Entity
 	 * @throws UniqueConstraintViolationException
 	 * @throws InvalidArgumentException
 	 */
-	public function setUsername(string $username)
+	public function setUsername(string $username): void
 	{
 		if (Strings::match($username, '/[^A-Za-z0-9_]/')) {
 			throw new InvalidArgumentException('Username contains invalid characters');
@@ -79,7 +79,7 @@ class User extends Entity
 	 * @throws UniqueConstraintViolationException
 	 * @throws InvalidArgumentException
 	 */
-	public function setEmail(string $email)
+	public function setEmail(string $email): void
 	{
 		if (!Validators::isEmail($email)) {
 			throw new InvalidArgumentException('Value is not valid email');
@@ -97,9 +97,9 @@ class User extends Entity
 	/**
 	 * @param string|null $phone
 	 */
-	public function setPhone($phone)
+	public function setPhone(?string $phone): void
 	{
-		if ($phone !== null && !PhoneNumber::validatePhone((string)$phone)) {
+		if ($phone !== null && !PhoneNumber::validatePhone((string) $phone)) {
 			throw new InvalidArgumentException('Value is not valid phone');
 		}
 		$this->phone = $phone;

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Security\Authenticator;
 
@@ -58,7 +58,7 @@ class Authenticator implements IAuthenticator
 	 * @param string $src
 	 * @param string $dest
 	 */
-	public function addMapping(string $src, string $dest)
+	public function addMapping(string $src, string $dest): void
 	{
 		$this->mapper[$src] = $dest;
 	}
@@ -68,7 +68,7 @@ class Authenticator implements IAuthenticator
 	 * @param string $namespace
 	 * @param IAuthenticator $authenticator
 	 */
-	public function add(string $namespace, IAuthenticator $authenticator)
+	public function add(string $namespace, IAuthenticator $authenticator): void
 	{
 		$this->authenticators[$namespace] = $authenticator;
 	}
@@ -90,7 +90,7 @@ class Authenticator implements IAuthenticator
 	 * @return Identity|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshIdentity(int $userId)
+	public function getRefreshIdentity(int $userId): ?Identity
 	{
 		return $this->getAuthenticator()->getRefreshIdentity($userId);
 	}
