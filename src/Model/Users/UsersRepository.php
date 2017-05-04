@@ -63,7 +63,7 @@ class UsersRepository extends Repository
 	 * @param string $hash
 	 * @return IEntity|User|null
 	 */
-	public function getByHashId(string $hash): ?User
+	public function getByHashId(?string $hash): ?User
 	{
 		return $this->mapper->getByHash('id', $hash);
 	}
