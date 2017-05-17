@@ -24,7 +24,7 @@
     "nette/tester": "~1.7",
     "nattreid/app-manager": "~1.0",
     "tracy/tracy": "~2.4",
-    "attreid/translation": "~2.4"
+    "kdyby/translation": "~2.4"
   },
   "autoload": {
     "classmap": [
