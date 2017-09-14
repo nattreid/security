@@ -36,20 +36,20 @@ class SecurityExtension extends CompilerExtension
 		$config['langDir'] = Helpers::expand($config['langDir'], $builder->parameters);
 
 		$authenticator = $builder->addDefinition($this->prefix('authenticator'))
-			->setClass(Authenticator::class);
+			->setType(Authenticator::class);
 
 		$authenticators = $config['authenticator'];
 		$authenticators[''] = UserAuthenticator::class;
 		foreach ($authenticators as $name => $class) {
 			$auth = $builder->addDefinition($this->prefix('authenticator.' . $name))
-				->setClass($this->getClass($class))
+				->setType($this->getClass($class))
 				->setAutowired(false);
 
 			$authenticator->addSetup('add', [$name, $auth]);
 		}
 
 		$builder->addDefinition($this->prefix('authorizatorFactory'))
-			->setClass(AuthorizatorFactory::class);
+			->setType(AuthorizatorFactory::class);
 
 		$builder->addDefinition($this->prefix('authorizator'))
 			->setFactory('@' . $this->prefix('authorizatorFactory') . '::create');
@@ -59,7 +59,7 @@ class SecurityExtension extends CompilerExtension
 			->setFactory(TryUser::class);
 
 		$builder->addDefinition($this->prefix('translator'))
-			->setClass(Translator::class)
+			->setType(Translator::class)
 			->setArguments([$config['langDir']]);
 	}
 
@@ -69,7 +69,7 @@ class SecurityExtension extends CompilerExtension
 
 		$builder->getDefinition('security.user')
 			->setFactory(User::class)
-			->setClass(User::class);
+			->setType(User::class);
 	}
 
 	/**
