@@ -85,7 +85,7 @@ class User extends NUser
 	{
 		if ($this->isLoggedIn() && $this->authenticator !== null) {
 			try {
-				$identity = $this->authenticator->getRefreshIdentity($this->getId());
+				$identity = $this->authenticator->getIdentity($this->getId());
 				if ($identity) {
 					$this->setIdentity($identity);
 				}

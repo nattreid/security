@@ -50,20 +50,19 @@ class UserAuthenticator implements IAuthenticator
 			$user->setPassword($password);
 			$this->orm->persistAndFlush($user);
 		}
-		$this->orm->users->setValid($user->id);
 
-		return $user->getIdentity();
+		return new Identity($user->id);
 	}
 
 	/**
-	 * Vrati data pokud je treba ja aktualizovat
+	 * Vrati data
 	 * @param int $userId
 	 * @return Identity|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshIdentity(int $userId): ?Identity
+	public function getIdentity(int $userId): ?Identity
 	{
-		$user = $this->orm->users->getRefreshUserData($userId);
+		$user = $this->orm->users->getData($userId);
 		if ($user) {
 			return $user->getIdentity();
 		}

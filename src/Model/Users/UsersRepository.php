@@ -10,7 +10,7 @@ use Nextras\Orm\Entity\IEntity;
 /**
  * Users Repository
  *
- * @method User|null getRefreshUserData($userId) Vrati data pokud je treba ja aktualizovat
+ * @method User|null getData($userId) Vrati data pokud je treba ja aktualizovat
  * @method User getById($primaryValue)
  *
  * @author Attreid <attreid@gmail.com>
@@ -20,32 +20,9 @@ class UsersRepository extends Repository
 	/** @var UsersMapper */
 	protected $mapper;
 
-	protected function init(): void
-	{
-		$this->onFlush[] = function ($persisted, $removed) {
-			foreach ($persisted as $user) {
-				/* @var $user User */
-				$this->invalidateIdentity($user->id);
-			}
-			foreach ($removed as $user) {
-				/* @var $user User */
-				$this->invalidateIdentity($user->id);
-			}
-		};
-	}
-
 	public static function getEntityClassNames(): array
 	{
 		return [User::class];
-	}
-
-	/**
-	 * Prida identitu jako validni
-	 * @param int $userId
-	 */
-	public function setValid(int $userId): void
-	{
-		$this->mapper->setValid($userId);
 	}
 
 	/**
@@ -77,14 +54,4 @@ class UsersRepository extends Repository
 	{
 		return $this->getBy(['email' => $email]);
 	}
-
-	/**
-	 * Invaliduje identitu
-	 * @param int $userId
-	 */
-	public function invalidateIdentity(int $userId): void
-	{
-		$this->mapper->invalidateIdentity($userId);
-	}
-
 }

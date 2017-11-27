@@ -7,7 +7,6 @@ namespace NAttreid\Security\Model\Users;
 use NAttreid\Orm\Structure\Table;
 use NAttreid\Security\Model\AclRoles\AclRolesMapper;
 use NAttreid\Security\Model\Mapper;
-use Nette\Caching\Cache;
 use Nette\Security\AuthenticationException;
 
 /**
@@ -17,9 +16,6 @@ use Nette\Security\AuthenticationException;
  */
 class UsersMapper extends Mapper
 {
-
-	private $tag = 'user';
-	private $key = 'user_identity';
 
 	protected function createTable(Table $table): void
 	{
@@ -62,56 +58,15 @@ class UsersMapper extends Mapper
 	 * @return User|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshUserData(int $userId): ?User
+	public function getData(int $userId): ?User
 	{
-		$acceptedUsers = $this->cache->load($this->key);
-
-		if (!isset($acceptedUsers[$userId])) {
-			/* @var $user User */
-			$user = $this->getRepository()->getById($userId);
-			if (!$user) {
-				throw new AuthenticationException('User does not exist');
-			} elseif (!$user->active) {
-				throw new AuthenticationException('User is inactive');
-			} else {
-				$acceptedUsers[$userId] = true;
-				$this->cache->save($this->key, $acceptedUsers, [
-					Cache::TAGS => [$this->tag]
-				]);
-				return $user;
-			}
+		/* @var $user User */
+		$user = $this->getRepository()->getById($userId);
+		if (!$user) {
+			throw new AuthenticationException('User does not exist');
+		} elseif (!$user->active) {
+			throw new AuthenticationException('User is inactive');
 		}
-		return null;
+		return $user;
 	}
-
-	/**
-	 * Invaliduje identitu
-	 * @param int $userId
-	 */
-	public function invalidateIdentity(int $userId): void
-	{
-		$acceptedUsers = $this->cache->load($this->key);
-
-		unset($acceptedUsers[$userId]);
-
-		$this->cache->save($this->key, $acceptedUsers, [
-			Cache::TAGS => [$this->tag]
-		]);
-	}
-
-	/**
-	 * Prida identitu jako validni
-	 * @param int $userId
-	 */
-	public function setValid(int $userId): void
-	{
-		$acceptedUsers = $this->cache->load($this->key);
-
-		$acceptedUsers[$userId] = true;
-
-		$this->cache->save($this->key, $acceptedUsers, [
-			Cache::TAGS => [$this->tag]
-		]);
-	}
-
 }

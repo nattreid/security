@@ -11,10 +11,10 @@ interface IAuthenticator extends \Nette\Security\IAuthenticator
 {
 
 	/**
-	 * Vrati data pokud je treba ja aktualizovat
+	 * Vrati data
 	 * @param int $userId
 	 * @return Identity|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshIdentity(int $userId): ?Identity;
+	public function getIdentity(int $userId): ?Identity;
 }

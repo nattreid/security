@@ -85,13 +85,13 @@ class Authenticator implements IAuthenticator
 	}
 
 	/**
-	 * Vrati data pokud je treba ja aktualizovat
+	 * Vrati data
 	 * @param int $userId
 	 * @return Identity|null
 	 * @throws AuthenticationException
 	 */
-	public function getRefreshIdentity(int $userId): ?Identity
+	public function getIdentity(int $userId): ?Identity
 	{
-		return $this->getAuthenticator()->getRefreshIdentity($userId);
+		return $this->getAuthenticator()->getIdentity($userId);
 	}
 }
