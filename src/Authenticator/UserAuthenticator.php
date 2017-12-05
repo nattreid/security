@@ -58,7 +58,6 @@ class UserAuthenticator implements IAuthenticator
 	 * Vrati data
 	 * @param int $userId
 	 * @return Identity|null
-	 * @throws AuthenticationException
 	 */
 	public function getIdentity(int $userId): ?Identity
 	{

@@ -118,14 +118,6 @@ class User extends NUser
 	}
 
 	/**
-	 * Otestuje aktualnost identity, a popripade ji aktualizuje
-	 */
-	public function invalidateIdentity(): void
-	{
-		$this->orm->users->invalidateIdentity($this->getId());
-	}
-
-	/**
 	 * @param string $resource
 	 * @param string $privilege
 	 * @param string $name

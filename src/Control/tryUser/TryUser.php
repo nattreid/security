@@ -7,6 +7,7 @@ namespace NAttreid\Security\Control;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\User;
 use NAttreid\Utils\Hasher;
+use Nette\Application\AbortException;
 use Nette\Application\UI\Control;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
@@ -98,6 +99,7 @@ class TryUser extends Control
 	 * Nastavi testovaci ucet a presmeruje
 	 * @param int $id
 	 * @return bool pokud uzivatel nema prava k teto metode, vrati false
+	 * @throws AbortException
 	 */
 	public function set(int $id): bool
 	{
@@ -124,6 +126,7 @@ class TryUser extends Control
 
 	/**
 	 * Odhlaseni role
+	 * @throws AbortException
 	 */
 	public function handleLogoutTryRole(): void
 	{

@@ -8,6 +8,7 @@ use NAttreid\Orm\Structure\Table;
 use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\Model\Mapper;
 use NAttreid\Security\Model\Orm;
+use Nextras\Dbal\QueryException;
 
 /**
  * Acl Resources Mapper
@@ -31,6 +32,7 @@ class AclResourcesMapper extends Mapper
 
 	/**
 	 * Smazani nepouzitych zdroju (pro prehlednost)
+	 * @throws QueryException
 	 */
 	public function deleteUnused(): void
 	{
