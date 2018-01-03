@@ -22,7 +22,7 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property OneHasMany|AclRole[] $children {1:m AclRole::$parent, orderBy=position}
  * @property int $position {default 0}
  * @property string $title {virtual}
- * @property ManyHasMany|User[] $users {m:n User::$roles}
+ * @property ManyHasMany|User[] $users {m:m User::$roles}
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -36,7 +36,7 @@ class AclRole extends Entity
 		$this->translator = $translator;
 	}
 
-	protected function onBeforePersist(): void
+	public function onBeforePersist(): void
 	{
 		if ($this->parent) {
 			$this->position = $this->parent->position + 1;

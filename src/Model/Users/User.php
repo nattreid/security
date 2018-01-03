@@ -14,6 +14,7 @@ use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 use Nextras\Dbal\UniqueConstraintViolationException;
 use Nextras\Orm\Entity\Entity;
+use Nextras\Orm\Entity\ToArrayConverter;
 use Nextras\Orm\Relationships\ManyHasMany;
 
 /**
@@ -29,7 +30,7 @@ use Nextras\Orm\Relationships\ManyHasMany;
  * @property string|null $language
  * @property string $password
  * @property string $fullName {virtual}
- * @property ManyHasMany|AclRole[] $roles {m:n AclRole::$users, isMain=true}
+ * @property ManyHasMany|AclRole[] $roles {m:m AclRole::$users, isMain=true}
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -119,7 +120,7 @@ class User extends Entity
 	 */
 	public function getIdentity(): Identity
 	{
-		$arr = $this->toArray(self::TO_ARRAY_RELATIONSHIP_AS_ID);
+		$arr = $this->toArray(ToArrayConverter::RELATIONSHIP_AS_ID);
 		unset($arr['password']);
 
 		$roles = $this->getRoles();
