@@ -13,8 +13,8 @@ interface IAuthenticator extends \Nette\Security\IAuthenticator
 	/**
 	 * Vrati data
 	 * @param int $userId
-	 * @return Identity|null
+	 * @return Identity
 	 * @throws AuthenticationException
 	 */
-	public function getIdentity(int $userId): ?Identity;
+	public function getIdentity(int $userId): Identity;
 }

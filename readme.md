@@ -27,22 +27,11 @@ orm:
 ```php
 class FrontAuthenticator implements \NAttreid\Security\Authenticator\IAuthenticator {
 
-    /**
-     * Performs an authentication.
-     * @return Identity
-     * @throws AuthenticationException
-     */
-    public function authenticate(array $credentials) {
+    public function authenticate(array $credentials): Identity {
         // php code
     }
 
-    /**
-	 * Vrati data pokud je treba ja aktualizovat
-	 * @param int $userId
-	 * @return Identity|null
-	 * @throws AuthenticationException
-	 */
-    public function getRefreshIdentity($userId) {
+    public function getIdentity(int $userId): Identity {
         // php code
     }
 }

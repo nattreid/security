@@ -51,22 +51,4 @@ class UsersMapper extends Mapper
 		$relationTable->addForeignKey('roleId', AclRolesMapper::class);
 		$relationTable->setPrimaryKey('userId', 'roleId');
 	}
-
-	/**
-	 * Vrati data pokud je treba ja aktualizovat
-	 * @param int $userId
-	 * @return User|null
-	 * @throws AuthenticationException
-	 */
-	public function getData(int $userId): ?User
-	{
-		/* @var $user User */
-		$user = $this->getRepository()->getById($userId);
-		if (!$user) {
-			throw new AuthenticationException('User does not exist');
-		} elseif (!$user->active) {
-			throw new AuthenticationException('User is inactive');
-		}
-		return $user;
-	}
 }

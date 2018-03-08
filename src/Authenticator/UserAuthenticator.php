@@ -57,14 +57,17 @@ class UserAuthenticator implements IAuthenticator
 	/**
 	 * Vrati data
 	 * @param int $userId
-	 * @return Identity|null
+	 * @return Identity
+	 * @throws AuthenticationException
 	 */
-	public function getIdentity(int $userId): ?Identity
+	public function getIdentity(int $userId): Identity
 	{
-		$user = $this->orm->users->getData($userId);
-		if ($user) {
-			return $user->getIdentity();
+		$user = $this->orm->users->getById($userId);
+		if (!$user) {
+			throw new AuthenticationException('User does not exist');
+		} elseif (!$user->active) {
+			throw new AuthenticationException('User is inactive');
 		}
-		return null;
+		return $user->getIdentity();
 	}
 }
