@@ -14,15 +14,12 @@ use Nextras\Orm\Repository\IDependencyProvider;
  * Acl Resources Repository
  *
  * @method AclResource getById($primaryValue)
+ * @method void deleteUnused() Smazani nepouzitych zdroju (pro prehlednost)
  *
  * @author Attreid <attreid@gmail.com>
  */
 class AclResourcesRepository extends Repository
 {
-
-	/** @var AclResourcesMapper */
-	protected $mapper;
-
 	/** @var ITranslator */
 	private $translator;
 
@@ -36,14 +33,6 @@ class AclResourcesRepository extends Repository
 	public static function getEntityClassNames(): array
 	{
 		return [AclResource::class];
-	}
-
-	/**
-	 * Smazani nepouzitych zdroju (pro prehlednost)
-	 */
-	public function deleteUnused(): void
-	{
-		$this->mapper->deleteUnused();
 	}
 
 	/**

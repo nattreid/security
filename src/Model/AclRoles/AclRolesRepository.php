@@ -17,9 +17,6 @@ use Nextras\Orm\Collection\ICollection;
 class AclRolesRepository extends Repository
 {
 
-	/** @var AclRolesMapper */
-	protected $mapper;
-
 	public static function getEntityClassNames(): array
 	{
 		return [AclRole::class];
