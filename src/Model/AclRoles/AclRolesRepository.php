@@ -43,11 +43,27 @@ class AclRolesRepository extends Repository
 
 	/**
 	 * Vrati pole [id, name] serazene podle [id]
+	 * @param bool $viewSuperadmin
 	 * @return array
 	 */
-	public function fetchPairs(): array
+	public function fetchPairs(bool $viewSuperadmin = false): array
 	{
-		return $this->findAll()->orderBy('id')->fetchPairs('id', 'title');
+		return $this->findRoles($viewSuperadmin)->orderBy('id')->fetchPairs('id', 'title');
+	}
+
+	/**
+	 * @param bool $viewSuperadmin
+	 * @return ICollection|AclRole[]
+	 */
+	public function findRoles(bool $viewSuperadmin = false): ICollection
+	{
+		if ($viewSuperadmin) {
+			return $this->findAll();
+		} else {
+			return $this->findBy([
+				'name!=' => AclRolesMapper::SUPERADMIN
+			]);
+		}
 	}
 
 }
