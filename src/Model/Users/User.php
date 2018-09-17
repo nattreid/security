@@ -32,6 +32,9 @@ use Nextras\Orm\Relationships\ManyHasMany;
  * @property string $fullName {virtual}
  * @property ManyHasMany|AclRole[] $roles {m:m AclRole::$users, isMain=true}
  *
+ * @property array $roleTitles {virtual}
+ * @property array $roleConstants {virtual}
+ *
  * @author Attreid <attreid@gmail.com>
  */
 class User extends Entity
@@ -123,15 +126,14 @@ class User extends Entity
 		$arr = $this->toArray(ToArrayConverter::RELATIONSHIP_AS_ID);
 		unset($arr['password']);
 
-		$roles = $this->getRoles();
-		return new Identity($this->id, $roles, $arr);
+		return new Identity($this->id, $this->roleConstants, $arr);
 	}
 
 	/**
 	 * Vrati jmena roli
 	 * @return array
 	 */
-	public function getRoles(): array
+	public function getterRoleConstants(): array
 	{
 		$result = [];
 		$roles = $this->roles->get();
@@ -146,7 +148,7 @@ class User extends Entity
 	 * Vrati nazvy roli
 	 * @return array
 	 */
-	public function getRoleTitles(): array
+	protected function getterRoleTitles(): array
 	{
 		$result = [];
 		$roles = $this->roles->get();
