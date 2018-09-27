@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace NAttreid\Security\Model\Users;
 
 use NAttreid\Orm\Repository;
+use Nextras\Orm\Collection\ICollection;
 use Nextras\Orm\Entity\IEntity;
 
 /**
@@ -32,6 +33,24 @@ class UsersRepository extends Repository
 	public function getByUsername(string $username): ?User
 	{
 		return $this->getBy(['username' => $username]);
+	}
+
+	/**
+	 * Vrati pole [id => username] serazene podle [username]
+	 * @return array
+	 */
+	public function fetchPairsByUsername(): array
+	{
+		return $this->findAll()->resetOrderBy()->orderBy('username')->fetchPairs('id', 'username');
+	}
+
+	/**
+	 * Vrati pole [id => fullname] serazene podle [surname]
+	 * @return array
+	 */
+	public function fetchPairsByFullName(): array
+	{
+		return $this->findAll()->resetOrderBy()->orderBy('surname')->fetchPairs('id', 'fullName');
 	}
 
 	/**
