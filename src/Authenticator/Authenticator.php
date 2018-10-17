@@ -48,7 +48,7 @@ class Authenticator implements IAuthenticator
 			$ns = $this->mapper[$ns];
 		}
 		if (!isset($this->authenticators[$ns])) {
-			throw new UnexpectedValueException('Namespace is not registered');
+			throw new UnexpectedValueException("Namespace '$ns' is not registered");
 		}
 		return $this->authenticators[$ns];
 	}
