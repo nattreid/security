@@ -61,12 +61,9 @@ class Translator
 			}
 			$catalogue->set('roles.' . $name, $title, 'security');
 
-			$invalidateCache = !file_exists($this->langDir);
 			$this->writer->write($catalogue, 'neon', ['path' => $this->langDir]);
 
-			if ($invalidateCache) {
-				$this->appManager->clearCache();
-			}
+			$this->appManager->clearCache();
 		}
 		return $title;
 	}
