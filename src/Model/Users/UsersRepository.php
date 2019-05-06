@@ -41,7 +41,10 @@ class UsersRepository extends Repository
 	 */
 	public function fetchPairsByUsername(): array
 	{
-		return $this->findAll()->resetOrderBy()->orderBy('username')->fetchPairs('id', 'username');
+		return $this->findAll()
+			->resetOrderBy()
+			->orderBy('username')
+			->fetchPairs('id', 'username');
 	}
 
 	/**
@@ -50,7 +53,10 @@ class UsersRepository extends Repository
 	 */
 	public function fetchPairsByFullName(): array
 	{
-		return $this->findAll()->resetOrderBy()->orderBy('surname')->fetchPairs('id', 'fullName');
+		return $this->findAll()
+			->resetOrderBy()
+			->orderBy('surname')
+			->fetchPairs('id', 'fullName');
 	}
 
 	/**
@@ -68,8 +74,33 @@ class UsersRepository extends Repository
 	 * @param string $email
 	 * @return User|IEntity
 	 */
-	public function getByEmail($email): ?User
+	public function getByEmail(string $email): ?User
 	{
 		return $this->getBy(['email' => $email]);
+	}
+
+	/**
+	 * Vrati uzivatele podle role
+	 * @param string|array $role
+	 * @return ICollection
+	 */
+	public function findByRole($role): ICollection
+	{
+		return $this->findBy([
+			'this->roles->name' => $role
+		]);
+	}
+
+	/**
+	 * Vrati seznam uzivatelu podle role
+	 * @param string|array $role
+	 * @return array
+	 */
+	public function fetchPairsByRole($role):array
+	{
+		return $this->findByRole($role)
+			->resetOrderBy()
+			->orderBy('surname')
+			->fetchPairs('id', 'fullName');
 	}
 }
