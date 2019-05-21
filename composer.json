@@ -21,7 +21,7 @@
 	"mobiledetect/mobiledetectlib": "~2.8"
   },
   "require-dev": {
-	"nette/tester": "~2-2",
+	"nette/tester": "~2.2",
 	"nattreid/app-manager": "~1.0",
 	"tracy/tracy": "~2.6",
 	"attreid/translation": "~2.6"
