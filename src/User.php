@@ -48,18 +48,21 @@ class User extends NUser
 	/** @var AuthorizatorFactory */
 	private $authorizatorFactory;
 
+	/** @var string */
+	private $uid;
+
 	public function __construct(IUserStorage $storage, Model $orm, Session $session, Request $request, Response $response, AuthorizatorFactory $authorizatorFactory, Authenticator $authenticator = null, IAuthorizator $authorizator = null)
 	{
 		parent::__construct($storage, $authenticator, $authorizator);
 		$this->authenticator = $authenticator;
 		$this->orm = $orm;
 		$this->session = $session;
-		$this->request = $request;
 		$this->response = $response;
 		$this->authorizatorFactory = $authorizatorFactory;
 
 		$this->initSession();
 		$this->initIdentity();
+		$this->uid = $request->getCookie(self::TRACKING_COOKIE);
 	}
 
 	private function initSession(): void
@@ -183,8 +186,7 @@ class User extends NUser
 	 */
 	public function getUid(): string
 	{
-		$uid = $this->request->getCookie(self::TRACKING_COOKIE);
-		if (empty($uid)) {
+		if (empty($this->uid)) {
 			$charList = 'a-f0-9';
 			$uid = Random::generate(8, $charList);
 			$uid .= "-" . Random::generate(4, $charList);
@@ -192,9 +194,10 @@ class User extends NUser
 			$uid .= "-" . Random::generate(4, $charList);
 			$uid .= "-" . Random::generate(12, $charList);
 
+			$this->uid = $uid;
 			$this->response->setCookie(self::TRACKING_COOKIE, $uid, self::TRACKING_EXPIRE);
 		}
-		return $uid;
+		return $this->uid;
 	}
 
 }
