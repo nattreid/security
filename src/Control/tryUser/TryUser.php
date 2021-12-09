@@ -53,7 +53,6 @@ class TryUser extends Control
 
 	public function __construct(string $redirect, Model $orm, Hasher $hasher, User $user, Session $session)
 	{
-		parent::__construct();
 		$this->orm = $orm;
 		$this->hasher = $hasher;
 		$this->user = $user;

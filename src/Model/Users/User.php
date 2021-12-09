@@ -8,8 +8,8 @@ use NAttreid\Security\Model\AclRoles\AclRole;
 use NAttreid\Utils\PhoneNumber;
 use Nette\InvalidArgumentException;
 use Nette\Security\AuthenticationException;
-use Nette\Security\Identity;
 use Nette\Security\Passwords;
+use Nette\Security\SimpleIdentity;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 use Nextras\Dbal\UniqueConstraintViolationException;
@@ -39,21 +39,22 @@ use Nextras\Orm\Relationships\ManyHasMany;
  */
 class User extends Entity
 {
-
 	/**
 	 * Ulozi heslo
 	 * @param string $newPassword
-	 * @param string $oldPassword
+	 * @param string|null $oldPassword
 	 * @throws AuthenticationException
 	 */
 	public function setPassword(string $newPassword, string $oldPassword = null): void
 	{
+		$passwords = new Passwords();
+		
 		if ($oldPassword != null) {
-			if (!Passwords::verify($oldPassword, $this->password)) {
+			if (!$passwords->verify($oldPassword, $this->password)) {
 				throw new AuthenticationException('The password is incorrect.');
 			}
 		}
-		$this->password = Passwords::hash($newPassword);
+		$this->password = $passwords->hash($newPassword);
 	}
 
 	/**
@@ -103,7 +104,7 @@ class User extends Entity
 	 */
 	public function setPhone($phone): void
 	{
-		if ($phone !== null && !PhoneNumber::validatePhone((string) $phone)) {
+		if ($phone !== null && !PhoneNumber::validatePhone((string)$phone)) {
 			throw new InvalidArgumentException('Value is not valid phone');
 		}
 		$this->phone = $phone;
@@ -119,14 +120,14 @@ class User extends Entity
 	}
 
 	/**
-	 * @return Identity
+	 * @return SimpleIdentity
 	 */
-	public function getIdentity(): Identity
+	public function getIdentity(): SimpleIdentity
 	{
 		$arr = $this->toArray(ToArrayConverter::RELATIONSHIP_AS_ID);
 		unset($arr['password']);
 
-		return new Identity($this->id, $this->roleConstants, $arr);
+		return new SimpleIdentity($this->id, $this->roleConstants, $arr);
 	}
 
 	/**

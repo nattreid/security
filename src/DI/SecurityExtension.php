@@ -39,7 +39,7 @@ class SecurityExtension extends CompilerExtension
 			->setType(Authenticator::class);
 
 		$authenticators = $config['authenticator'];
-		$authenticators[''] = UserAuthenticator::class;
+		$authenticators['user'] = UserAuthenticator::class;
 		foreach ($authenticators as $name => $class) {
 			$auth = $builder->addDefinition($this->prefix('authenticator.' . $name))
 				->setType($this->getClass($class))
@@ -54,8 +54,9 @@ class SecurityExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('authorizator'))
 			->setFactory('@' . $this->prefix('authorizatorFactory') . '::create');
 
-		$builder->addDefinition($this->prefix('tryUser'))
+		$builder->addFactoryDefinition($this->prefix('tryUser'))
 			->setImplement(ITryUserFactory::class)
+			->getResultDefinition()
 			->setFactory(TryUser::class);
 
 		$builder->addDefinition($this->prefix('translator'))

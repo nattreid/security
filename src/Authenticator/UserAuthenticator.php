@@ -6,8 +6,8 @@ namespace NAttreid\Security\Authenticator;
 
 use NAttreid\Security\Model\Orm;
 use Nette\Security\AuthenticationException;
-use Nette\Security\Identity;
 use Nette\Security\Passwords;
+use Nette\Security\SimpleIdentity;
 use Nette\SmartObject;
 use Nextras\Orm\Model\Model;
 
@@ -23,18 +23,22 @@ class UserAuthenticator implements IAuthenticator
 	/** @var Orm */
 	private $orm;
 
-	public function __construct(Model $orm)
+	/** @var Passwords */
+	private $passwords;
+
+	public function __construct(Model $orm, Passwords $passwords)
 	{
 		$this->orm = $orm;
+		$this->passwords = $passwords;
 	}
 
 	/**
 	 * Performs an authentication.
 	 * @param array $credentials
-	 * @return Identity
+	 * @return SimpleIdentity
 	 * @throws AuthenticationException
 	 */
-	public function authenticate(array $credentials): Identity
+	public function authenticate(array $credentials): SimpleIdentity
 	{
 		list($username, $password) = $credentials;
 
@@ -42,25 +46,25 @@ class UserAuthenticator implements IAuthenticator
 
 		if (!$user) {
 			throw new AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
-		} elseif (!Passwords::verify($password, $user->password)) {
+		} elseif (!$this->passwords->verify($password, $user->password)) {
 			throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
 		} elseif (!$user->active) {
 			throw new AuthenticationException('Account is deactivated.', self::NOT_APPROVED);
-		} elseif (Passwords::needsRehash($user->password)) {
+		} elseif ($this->passwords->needsRehash($user->password)) {
 			$user->setPassword($password);
 			$this->orm->persistAndFlush($user);
 		}
 
-		return new Identity($user->id);
+		return new SimpleIdentity($user->id);
 	}
 
 	/**
 	 * Vrati data
 	 * @param int $userId
-	 * @return Identity
+	 * @return SimpleIdentity
 	 * @throws AuthenticationException
 	 */
-	public function getIdentity(int $userId): Identity
+	public function getIdentity(int $userId): SimpleIdentity
 	{
 		$user = $this->orm->users->getById($userId);
 		if (!$user) {
