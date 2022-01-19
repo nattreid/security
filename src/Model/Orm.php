@@ -8,6 +8,7 @@ use NAttreid\Security\Model\Acl\AclRepository;
 use NAttreid\Security\Model\AclResources\AclResourcesRepository;
 use NAttreid\Security\Model\AclRoles\AclRolesRepository;
 use NAttreid\Security\Model\Users\UsersRepository;
+use NAttreid\Security\Model\UsersLogged\UsersLoggedRepository;
 use Nextras\Orm\Model\Model;
 
 /**
@@ -15,6 +16,7 @@ use Nextras\Orm\Model\Model;
  * @property-read AclResourcesRepository $aclResources
  * @property-read AclRolesRepository $aclRoles
  * @property-read UsersRepository $users
+ * @property-read UsersLoggedRepository $usersLogged
  *
  * @author Attreid <attreid@gmail.com>
  */

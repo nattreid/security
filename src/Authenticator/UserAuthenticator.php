@@ -48,8 +48,9 @@ class UserAuthenticator implements IAuthenticator
 			throw new AuthenticationException('Account is deactivated.', self::NOT_APPROVED);
 		} elseif (Passwords::needsRehash($user->password)) {
 			$user->setPassword($password);
-			$this->orm->persistAndFlush($user);
 		}
+
+		$user->logged();
 
 		return new Identity($user->id);
 	}

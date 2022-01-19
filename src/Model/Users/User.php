@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace NAttreid\Security\Model\Users;
 
 use NAttreid\Security\Model\AclRoles\AclRole;
+use NAttreid\Security\Model\Orm;
+use NAttreid\Security\Model\UsersLogged\UserLogged;
 use NAttreid\Utils\PhoneNumber;
 use Nette\InvalidArgumentException;
 use Nette\Security\AuthenticationException;
@@ -16,6 +18,7 @@ use Nextras\Dbal\UniqueConstraintViolationException;
 use Nextras\Orm\Entity\Entity;
 use Nextras\Orm\Entity\ToArrayConverter;
 use Nextras\Orm\Relationships\ManyHasMany;
+use Nextras\Orm\Relationships\OneHasMany;
 
 /**
  * User
@@ -31,6 +34,7 @@ use Nextras\Orm\Relationships\ManyHasMany;
  * @property string $password
  * @property string $fullName {virtual}
  * @property ManyHasMany|AclRole[] $roles {m:m AclRole::$users, isMain=true}
+ * @property OneHasMany|UserLogged[] $logged {1:m UserLogged::$user, cascade=[persist, remove]}
  *
  * @property array $roleTitles {virtual}
  * @property array $roleConstants {virtual}
@@ -43,7 +47,7 @@ class User extends Entity
 	/**
 	 * Ulozi heslo
 	 * @param string $newPassword
-	 * @param string $oldPassword
+	 * @param string|null $oldPassword
 	 * @throws AuthenticationException
 	 */
 	public function setPassword(string $newPassword, string $oldPassword = null): void
@@ -103,10 +107,17 @@ class User extends Entity
 	 */
 	public function setPhone($phone): void
 	{
-		if ($phone !== null && !PhoneNumber::validatePhone((string) $phone)) {
+		if ($phone !== null && !PhoneNumber::validatePhone((string)$phone)) {
 			throw new InvalidArgumentException('Value is not valid phone');
 		}
 		$this->phone = $phone;
+	}
+
+	public function logged(): void
+	{
+		$logged = new UserLogged();
+		$this->logged->add($logged);
+		$this->getRepository()->persistAndFlush($this);
 	}
 
 	/**
