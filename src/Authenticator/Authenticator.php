@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace NAttreid\Security\Authenticator;
 
-use Exception;
-use Nette\Http\UserStorage;
-use Nette\Security\AuthenticationException;
-use Nette\Security\Identity;
+use Nette\Security\Authenticator as NAuthenticator;
+use Nette\Security\IdentityHandler;
 use Nette\Security\IIdentity;
-use Nette\Security\IUserStorage;
+use Nette\Security\UserStorage;
 use Nette\SmartObject;
 use UnexpectedValueException;
 
@@ -18,11 +16,11 @@ use UnexpectedValueException;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class Authenticator implements IAuthenticator
+class Authenticator implements NAuthenticator, IdentityHandler
 {
 	use SmartObject;
 
-	/** @var IAuthenticator[] */
+	/** @var NAuthenticator[]| */
 	private $authenticators = [];
 
 	/** @var string[] */
@@ -31,17 +29,17 @@ class Authenticator implements IAuthenticator
 	/** @var UserStorage */
 	private $userStorage;
 
-	public function __construct(IUserStorage $userStorage)
+	public function __construct(UserStorage $userStorage)
 	{
 		$this->userStorage = $userStorage;
 	}
 
 	/**
 	 * Vrati overovac
-	 * @return IAuthenticator
+	 * @return NAuthenticator
 	 * @throws UnexpectedValueException
 	 */
-	private function getAuthenticator(): IAuthenticator
+	private function getAuthenticator(): NAuthenticator
 	{
 		$ns = $this->userStorage->getNamespace();
 		if (isset($this->mapper[$ns])) {
@@ -66,32 +64,33 @@ class Authenticator implements IAuthenticator
 	/**
 	 * Prida authenticator
 	 * @param string $namespace
-	 * @param IAuthenticator $authenticator
+	 * @param NAuthenticator $authenticator
 	 */
-	public function add(string $namespace, IAuthenticator $authenticator): void
+	public function add(string $namespace, NAuthenticator $authenticator): void
 	{
 		$this->authenticators[$namespace] = $authenticator;
 	}
 
-	/**
-	 * Overeni
-	 * @param array $credentials
-	 * @return IIdentity
-	 * @throws Exception
-	 */
-	public function authenticate(array $credentials): IIdentity
+	public function authenticate(string $user, string $password): IIdentity
 	{
-		return $this->getAuthenticator()->authenticate($credentials);
+		return $this->getAuthenticator()->authenticate($user, $password);
 	}
 
-	/**
-	 * Vrati data
-	 * @param int $userId
-	 * @return Identity
-	 * @throws AuthenticationException
-	 */
-	public function getIdentity(int $userId): Identity
+	function sleepIdentity(IIdentity $identity): IIdentity
 	{
-		return $this->getAuthenticator()->getIdentity($userId);
+		$authenticator = $this->getAuthenticator();
+		if ($authenticator instanceof IdentityHandler) {
+			return $authenticator->sleepIdentity($identity);
+		}
+		return $identity;
+	}
+
+	function wakeupIdentity(IIdentity $identity): ?IIdentity
+	{
+		$authenticator = $this->getAuthenticator();
+		if ($authenticator instanceof IdentityHandler) {
+			return $authenticator->wakeupIdentity($identity);
+		}
+		return $identity;
 	}
 }

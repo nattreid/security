@@ -27,7 +27,8 @@ class AclResourcesMapper extends Mapper
 			->varChar(150)
 			->setUnique();
 		$table->addColumn('name')
-			->varChar(150);
+			->varChar(150)
+			->setDefault(null);
 	}
 
 	/**

@@ -7,19 +7,19 @@ namespace NAttreid\Security;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use NAttreid\Security\Authenticator\Authenticator;
 use NAttreid\Security\Model\AclResources\AclResource;
+use NAttreid\Security\Model\AclRoles\AclRolesMapper;
 use NAttreid\Security\Model\Orm;
 use Nette\Http\Request;
 use Nette\Http\Response;
 use Nette\Http\Session;
-use Nette\Http\UserStorage;
 use Nette\InvalidStateException;
 use Nette\Security\AuthenticationException;
-use Nette\Security\IAuthorizator;
-use Nette\Security\Identity;
-use Nette\Security\IUserStorage;
+use Nette\Security\Authorizator;
+use Nette\Security\SimpleIdentity;
 use Nette\Security\User as NUser;
+use Nette\Security\UserStorage;
 use Nette\Utils\Random;
-use Nextras\Dbal\UniqueConstraintViolationException;
+use Nextras\Dbal\Drivers\Exception\UniqueConstraintViolationException;
 use Nextras\Orm\Model\Model;
 use Tracy\Debugger;
 
@@ -48,9 +48,9 @@ class User extends NUser
 	/** @var AuthorizatorFactory */
 	private $authorizatorFactory;
 
-	public function __construct(IUserStorage $storage, Model $orm, Session $session, Request $request, Response $response, AuthorizatorFactory $authorizatorFactory, Authenticator $authenticator = null, IAuthorizator $authorizator = null)
+	public function __construct(UserStorage $storage, Model $orm, Session $session, Request $request, Response $response, AuthorizatorFactory $authorizatorFactory, Authenticator $authenticator = null, Authorizator $authorizator = null)
 	{
-		parent::__construct($storage, $authenticator, $authorizator);
+		parent::__construct(null, $authenticator, $authorizator, $storage);
 		$this->authenticator = $authenticator;
 		$this->orm = $orm;
 		$this->session = $session;
@@ -58,8 +58,10 @@ class User extends NUser
 		$this->response = $response;
 		$this->authorizatorFactory = $authorizatorFactory;
 
+		$this->authenticatedRole = AclRolesMapper::USER;
+
 		$this->initSession();
-		$this->initIdentity();
+//		$this->initIdentity();
 	}
 
 	private function initSession(): void
@@ -97,9 +99,9 @@ class User extends NUser
 
 	/**
 	 * Nastavei identitu
-	 * @param Identity $identity
+	 * @param SimpleIdentity $identity
 	 */
-	public function setIdentity(Identity $identity): void
+	public function setIdentity(SimpleIdentity $identity): void
 	{
 		$this->getStorage()->setIdentity($identity);
 	}
@@ -114,7 +116,7 @@ class User extends NUser
 		if ($storage instanceof UserStorage) {
 			$storage->setNamespace($namespace);
 		}
-		$this->initIdentity();
+//		$this->initIdentity();
 	}
 
 	/**
@@ -123,7 +125,7 @@ class User extends NUser
 	 * @param string $name
 	 * @return bool
 	 */
-	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, string $name = null): bool
+	public function isAllowed($resource = Authorizator::ALL, $privilege = Authorizator::ALL, string $name = null): bool
 	{
 		$this->getAuthorizator();
 		try {

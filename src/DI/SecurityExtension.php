@@ -39,9 +39,9 @@ class SecurityExtension extends CompilerExtension
 			->setType(Authenticator::class);
 
 		$authenticators = $config['authenticator'];
-		$authenticators['user'] = UserAuthenticator::class;
+		$authenticators[''] = UserAuthenticator::class;
 		foreach ($authenticators as $name => $class) {
-			$auth = $builder->addDefinition($this->prefix('authenticator.' . $name))
+			$auth = $builder->addDefinition($this->prefix('authenticators' . $name))
 				->setType($this->getClass($class))
 				->setAutowired(false);
 
