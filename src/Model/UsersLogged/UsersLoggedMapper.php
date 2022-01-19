@@ -9,11 +9,11 @@ use NAttreid\Security\Model\Mapper;
 use NAttreid\Security\Model\Users\UsersMapper;
 
 /**
- * UsersLogged
+ * UsersLogged Mapper
  *
  * @author Attreid <attreid@gmail.com>
  */
-class UsersLogged extends Mapper
+class UsersLoggedMapper extends Mapper
 {
 
 	protected function createTable(Table $table): void

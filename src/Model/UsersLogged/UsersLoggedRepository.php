@@ -7,7 +7,7 @@ namespace NAttreid\Security\Model\UsersLogged;
 use NAttreid\Orm\Repository;
 
 /**
- * UsersLoggedRepository
+ * UsersLogged Repository
  *
  * @author Attreid <attreid@gmail.com>
  */
