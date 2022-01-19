@@ -12,7 +12,7 @@ use Nextras\Orm\Entity\Entity;
  * UserLogged
  *
  * @property int $id {primary}
- * @property DateTimeImmutable $inserted
+ * @property DateTimeImmutable $inserted {default now}
  * @property User $user {m:1 User::$logged}
  *
  * @author Attreid <attreid@gmail.com>
